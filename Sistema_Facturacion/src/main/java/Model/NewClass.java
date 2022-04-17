@@ -2,12 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ConexionBD;
+package Model;
 
-/**
- *
- * @author dead1
- */
-public class prueva {
+
+public class NewClass {
     
 }
