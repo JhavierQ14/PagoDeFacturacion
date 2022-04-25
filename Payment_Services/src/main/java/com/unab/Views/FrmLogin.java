@@ -24,11 +24,11 @@ public class FrmLogin extends javax.swing.JFrame {
     }
     
     public void LoadImage()  {
-        LblExit.setIcon(new ImageIcon("OtherSource/Images/boton.png"));
-        LblUser.setIcon(new ImageIcon("OtherSource/Images/user.png"));
-        LblArroba.setIcon(new ImageIcon("OtherSource/Images/arroba.png"));
-        LblPass.setIcon(new ImageIcon("OtherSource/Images/contrasena.png"));
-        LblNext.setIcon(new ImageIcon("OtherSource/Images/siguiente11.png"));
+        LblExit.setIcon(new ImageIcon("src/main/resources/Images/boton.png"));
+        LblUser.setIcon(new ImageIcon("src/main/resources/Images/user.png"));
+        LblArroba.setIcon(new ImageIcon("src/main/resources/Images/arroba.png"));
+        LblPass.setIcon(new ImageIcon("src/main/resources/Images/contrasena.png"));
+        LblNext.setIcon(new ImageIcon("src/main/resources/Images/siguiente11.png"));
     }
     
   
