@@ -1,0 +1,7 @@
+CREATE TABLE `pago_de_facturacion_db`.`transacction_detail` (
+  `idTransacction_detail` INT NOT NULL AUTO_INCREMENT,
+  `FK_Id_Factura` INT NOT NULL,
+  `Total_Pago` FLOAT NOT NULL,
+  `Total_Impuestos` FLOAT NOT NULL,
+  `FK_Id_User` INT NOT NULL,
+  PRIMARY KEY (`idTransacction_detail`));
