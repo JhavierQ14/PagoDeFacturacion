@@ -1,3 +1,0 @@
-CREATE TABLE `pago_de_facturacion_db`.`transaccion` (
-  `idTransaccion` INT NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`idTransaccion`));

@@ -1,7 +1,0 @@
-CREATE TABLE `pago_de_facturacion_db`.`tbl_tarjeta_bancaria` (
-  `idtbl_tarjeta_bancaria` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(64) NOT NULL,
-  `Numero_Tarjeta` VARCHAR(100) NOT NULL,
-  `fecha_vencimineto` DATE NOT NULL,
-  `CVV` INT NOT NULL,
-  PRIMARY KEY (`idtbl_tarjeta_bancaria`));

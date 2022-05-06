@@ -19,7 +19,7 @@ public class ConnectionDB {
             
             Con = DriverManager.getConnection(url,user,password);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "error"+e.toString());
+            JOptionPane.showMessageDialog(null, "error "+e.toString());
         }
         return Con;
     }

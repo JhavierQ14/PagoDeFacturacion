@@ -1,9 +1,0 @@
-CREATE TABLE `pago_de_facturacion_db`.`employee` (
-  `idEmployee` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `Employee_name` VARCHAR(64) NOT NULL,
-  `Employee_Lastname` VARCHAR(64) NOT NULL,
-  `e_identification_document` INT NOT NULL,
-  `Phone` VARCHAR(32) NOT NULL,
-  `email_adrdess` VARCHAR(64) NOT NULL,
-  PRIMARY KEY (`idEmployee`));

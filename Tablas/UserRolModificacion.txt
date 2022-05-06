@@ -1,4 +1,0 @@
-ALTER TABLE `pago_de_facturacion_db`.`rol_usuario` 
-ADD COLUMN `rol_id` INT NOT NULL AFTER `user_id`,
-CHANGE COLUMN `Id_User` `Id_User_roi` INT NOT NULL AUTO_INCREMENT ,
-CHANGE COLUMN `Tipo_Usuario` `user_id` INT NOT NULL , RENAME TO  `pago_de_facturacion_db`.`user_rol` ;

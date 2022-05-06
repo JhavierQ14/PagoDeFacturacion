@@ -1,4 +1,0 @@
-CREATE TABLE `pago_de_facturacion_db`.`tbl_datos_factura` (
-  `cod_factura` INT NOT NULL AUTO_INCREMENT,
-  `cantidad_pago` INT NOT NULL,
-  PRIMARY KEY (`cod_factura`));

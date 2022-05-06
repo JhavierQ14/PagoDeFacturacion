@@ -1,4 +1,0 @@
-CREATE TABLE `pago_de_facturacion_db`.`rol` (
-  `id_Rol` INT NOT NULL AUTO_INCREMENT,
-  `rol_name` VARCHAR(64) NOT NULL,
-  PRIMARY KEY (`id_Rol`));
