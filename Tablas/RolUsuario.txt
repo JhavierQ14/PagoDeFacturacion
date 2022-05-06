@@ -1,0 +1,4 @@
+CREATE TABLE `pago_de_facturacion_db`.`rol_usuario` (
+  `Id_User` INT NOT NULL AUTO_INCREMENT,
+  `Tipo_Usuario` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Id_User`));
