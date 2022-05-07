@@ -12,16 +12,26 @@ public class UserDAO {
     ConnectionDB conn = new ConnectionDB();
     Connection connection = conn.getCon();
     
-    int LogIn(User user){
+    public int LogIn(User user){
         
         int confirmation = 0;
-        String query = "";
+        String query = "{call pago_de_facturacion_db.SP_VALIDATION_USER(?,?,?)}";
         
         try {
             
             
+             CallableStatement Consul = connection.prepareCall(query);
+             Consul.setString("PUsername", user.getUser_Name());
+             Consul.setString("PEmail",  user.getEmail());
+             Consul.setString("Ppass",  user.getPassword());
             
-         
+            ResultSet rs = Consul.executeQuery();
+            if (rs.next()) {
+                
+                confirmation = 1;
+                return  confirmation;
+                
+          }
         } catch (Exception e) {
             
             JOptionPane.showMessageDialog(null, "Error " + e.toString());

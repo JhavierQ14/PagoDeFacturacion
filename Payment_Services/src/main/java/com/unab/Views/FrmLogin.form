@@ -206,7 +206,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="LblUser" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="TxtUser" max="32767" attributes="0"/>
+                      <Component id="TxtUserName" pref="363" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -217,7 +217,7 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="LblUser" max="32767" attributes="0"/>
-                          <Component id="TxtUser" pref="31" max="32767" attributes="0"/>
+                          <Component id="TxtUserName" pref="31" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -226,7 +226,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="LblUser">
             </Component>
-            <Component class="javax.swing.JTextField" name="TxtUser">
+            <Component class="javax.swing.JTextField" name="TxtUserName">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
@@ -253,9 +253,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="LblArroba" min="-2" pref="46" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="TxtUser1" pref="350" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="TxtEmail" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -265,7 +265,7 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="LblArroba" min="-2" pref="39" max="-2" attributes="0"/>
-                          <Component id="TxtUser1" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="TxtEmail" min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   </Group>
@@ -275,7 +275,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="LblArroba">
             </Component>
-            <Component class="javax.swing.JTextField" name="TxtUser1">
+            <Component class="javax.swing.JTextField" name="TxtEmail">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>

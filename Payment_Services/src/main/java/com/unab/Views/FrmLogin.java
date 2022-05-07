@@ -4,10 +4,15 @@
  */
 package com.unab.Views;
 
+import com.unab.Entities.User;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import com.unab.Models.DAO.UserDAO;
+import com.unab.Security.*;
+import java.security.Principal;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -53,10 +58,10 @@ public class FrmLogin extends javax.swing.JFrame {
         LblExit = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         LblUser = new javax.swing.JLabel();
-        TxtUser = new javax.swing.JTextField();
+        TxtUserName = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         LblArroba = new javax.swing.JLabel();
-        TxtUser1 = new javax.swing.JTextField();
+        TxtEmail = new javax.swing.JTextField();
         LblNext1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         LblPass = new javax.swing.JLabel();
@@ -118,7 +123,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         jPanel2.setOpaque(false);
 
-        TxtUser.setBorder(null);
+        TxtUserName.setBorder(null);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -128,7 +133,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(LblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TxtUser)
+                .addComponent(TxtUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -137,13 +142,13 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(LblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(TxtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)))
+                    .addComponent(TxtUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         jPanel5.setOpaque(false);
 
-        TxtUser1.setBorder(null);
+        TxtEmail.setBorder(null);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -152,9 +157,9 @@ public class FrmLogin extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(LblArroba, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(TxtUser1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
-                .addGap(19, 19, 19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TxtEmail)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +167,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LblArroba, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(62, 62, 62))
         );
 
@@ -282,8 +287,32 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void LblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblNextMouseClicked
      FrmMenu menu = new FrmMenu();
-     menu.setVisible(true);
-     this.dispose();
+     
+     
+         Encryption seguridad = new Encryption();
+        User user = new User();
+        UserDAO userD = new UserDAO();
+    
+
+        user.setUser_Name(TxtUserName.getText());
+        user.setEmail(TxtEmail.getText());
+        user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
+
+        int enc = userD.LogIn(user);
+
+        if (enc == 1) {
+
+            menu.setVisible(true);
+            this.dispose();
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+
+        }
+
+     
+    
      
      
     }//GEN-LAST:event_LblNextMouseClicked
@@ -330,9 +359,9 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel LblNext1;
     private javax.swing.JLabel LblPass;
     private javax.swing.JLabel LblUser;
+    private javax.swing.JTextField TxtEmail;
     private javax.swing.JPasswordField TxtPass;
-    private javax.swing.JTextField TxtUser;
-    private javax.swing.JTextField TxtUser1;
+    private javax.swing.JTextField TxtUserName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
