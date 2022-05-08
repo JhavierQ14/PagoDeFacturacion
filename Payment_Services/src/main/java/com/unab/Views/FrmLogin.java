@@ -26,18 +26,14 @@ public class FrmLogin extends javax.swing.JFrame {
         initComponents();
         LoadImage();
     }
-    
-    public void LoadImage()  {
+
+    public void LoadImage() {
         LblExit.setIcon(new ImageIcon("src/main/resources/Images/boton.png"));
         LblUser.setIcon(new ImageIcon("src/main/resources/Images/user.png"));
         LblArroba.setIcon(new ImageIcon("src/main/resources/Images/arroba.png"));
         LblPass.setIcon(new ImageIcon("src/main/resources/Images/contrasena.png"));
         LblNext.setIcon(new ImageIcon("src/main/resources/Images/siguiente11.png"));
     }
-    
-  
-
-  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -266,33 +262,30 @@ public class FrmLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
     int x;
     int y;
-    
+
     private void LblExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblExitMouseClicked
         System.exit(0);
     }//GEN-LAST:event_LblExitMouseClicked
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
-       this.x = evt.getX();
+        this.x = evt.getX();
         this.y = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
-     Point p = MouseInfo.getPointerInfo().getLocation();
-     this.setLocation(p.x - x, p.y - y);
+        Point p = MouseInfo.getPointerInfo().getLocation();
+        this.setLocation(p.x - x, p.y - y);
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void LblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblNextMouseClicked
-     //FrmP menu = new FrmP();
-     
-     
-         Encryption seguridad = new Encryption();
+        //FrmP menu = new FrmP();
+
+        Encryption seguridad = new Encryption();
         User user = new User();
         FrmMain N = new FrmMain();
         UserDAO userD = new UserDAO();
-    
 
         user.setUser_Name(TxtUserName.getText());
         user.setEmail(TxtEmail.getText());
@@ -311,10 +304,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         }
 
-     
-    
-     
-     
+
     }//GEN-LAST:event_LblNextMouseClicked
 
     /**
@@ -373,4 +363,3 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
-
