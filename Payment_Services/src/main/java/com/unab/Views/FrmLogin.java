@@ -4,6 +4,7 @@
  */
 package com.unab.Views;
 
+//import com.unab.Views.Menu.FrmP;
 import com.unab.Entities.User;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -286,7 +287,7 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void LblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblNextMouseClicked
-     FrmMenu menu = new FrmMenu();
+     //FrmP menu = new FrmP();
      
      
          Encryption seguridad = new Encryption();
@@ -302,7 +303,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         if (enc == 1) {
 
-            menu.setVisible(true);
+           // menu.setVisible(true);
             this.dispose();
 
         } else {
