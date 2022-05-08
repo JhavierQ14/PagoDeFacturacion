@@ -5,6 +5,7 @@
 package com.unab.Views;
 
 //import com.unab.Views.Menu.FrmP;
+import com.sun.tools.javac.Main;
 import com.unab.Entities.User;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -14,11 +15,8 @@ import com.unab.Models.DAO.UserDAO;
 import com.unab.Security.*;
 import java.security.Principal;
 import javax.swing.JOptionPane;
+import com.unab.Views.FrmMain;
 
-/**
- *
- * @author AAAAAAA
- */
 public class FrmLogin extends javax.swing.JFrame {
 
     /**
@@ -292,6 +290,7 @@ public class FrmLogin extends javax.swing.JFrame {
      
          Encryption seguridad = new Encryption();
         User user = new User();
+        FrmMain N = new FrmMain();
         UserDAO userD = new UserDAO();
     
 
@@ -303,7 +302,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         if (enc == 1) {
 
-           // menu.setVisible(true);
+            N.setVisible(true);
             this.dispose();
 
         } else {
