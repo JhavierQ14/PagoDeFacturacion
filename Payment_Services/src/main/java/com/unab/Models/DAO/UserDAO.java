@@ -2,7 +2,6 @@ package com.unab.Models.DAO;
 
 import com.unab.DB.*;
 import com.unab.Entities.*;
-import com.unab.Domain.*;
 import com.unab.Models.ViewModels.*;
 
 import java.sql.*;
@@ -17,7 +16,7 @@ public class UserDAO {
     
     /* Validar Usuario*/
     public int LogIn(User user) {
-
+        
         int confirmation = 0;
         String query = "{call pago_de_facturacion_db.SP_VALIDATION_USER(?,?,?)}";
 
@@ -31,8 +30,6 @@ public class UserDAO {
             ResultSet rs = qry.executeQuery();
             if (rs.next())
             {
-                UserLoginCache ulc = new UserLoginCache();
-                
                 
                 confirmation = 1;
                 return confirmation;
@@ -46,6 +43,40 @@ public class UserDAO {
 
         return confirmation;
     }
+    
+    public ArrayList<UserOnLineVM> UserOnLine(String userName, String email){
+        
+        ArrayList<UserOnLineVM> data = null;
+        String query = "call pago_de_facturacion_db.SP_ONLINE_USER(?,?)";
+        
+        try {
+            
+            CallableStatement cs = connection.prepareCall(query);
+            cs.setString("PUsername", userName);
+            cs.setString("PEmail", email);
+            ResultSet rs = cs.executeQuery();
+            
+            while(rs.next()){
+                
+                UserOnLineVM userLine = new UserOnLineVM();
+                userLine.setId_User(rs.getInt("id_User"));
+                userLine.setUser_Name(rs.getString("User_Name"));
+                userLine.setEmail(rs.getString("Email"));
+                userLine.setIdEmployee(rs.getInt("idEmployee"));
+                userLine.setEmployee_name(rs.getString("Employee_name"));
+                userLine.setEmployee_Lastname(rs.getString("Employee_Lastname"));
+            }
+            
+            connection.close();
+            
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null,"Error " + e.toString());
+        }
+        
+        return data;
+    }
+    
     
     /*Crear Usuario*/
     public void CreateUser(User user){

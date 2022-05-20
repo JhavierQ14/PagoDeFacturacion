@@ -1,14 +1,19 @@
 package com.unab.Views;
 
+import com.unab.Models.UserCache;
+
 import javax.swing.ImageIcon;
 
 public class FrmMain extends javax.swing.JFrame {
 
     public FrmMain() {
         initComponents();
+        
         LoadImagen();
+        LoadUserName();
     }
-
+    
+//  Cargar Imagenes
     public void LoadImagen() {
 
         LblPagar.setIcon(new ImageIcon("src/main/resources/Images/Pagos.png"));
@@ -16,7 +21,14 @@ public class FrmMain extends javax.swing.JFrame {
         LblEmpleados.setIcon(new ImageIcon("src/main/resources/Images/empleados.png"));
         LblReportes.setIcon(new ImageIcon("src/main/resources/Images/reportes.png"));
         LblCerrarS.setIcon(new ImageIcon("src/main/resources/Images/out24.png"));
-
+    }
+    
+//  Cargar nombre de usuario   
+    public static String userName;
+    public void LoadUserName(){
+        
+        lblUserName.setText(userName);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -39,7 +51,7 @@ public class FrmMain extends javax.swing.JFrame {
         LblReportes = new javax.swing.JLabel();
         LblPagar1 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        LblEmpleadoOnline = new javax.swing.JLabel();
+        lblUserName = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         LblPagar2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -134,15 +146,15 @@ public class FrmMain extends javax.swing.JFrame {
 
         jLabel9.setBackground(new java.awt.Color(34, 45, 49));
         jLabel9.setFont(new java.awt.Font("Yu Gothic Light", 0, 15)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 204, 102));
+        jLabel9.setForeground(new java.awt.Color(153, 255, 153));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Online");
 
-        LblEmpleadoOnline.setBackground(new java.awt.Color(34, 45, 49));
-        LblEmpleadoOnline.setFont(new java.awt.Font("Yu Gothic Light", 0, 18)); // NOI18N
-        LblEmpleadoOnline.setForeground(new java.awt.Color(255, 255, 255));
-        LblEmpleadoOnline.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        LblEmpleadoOnline.setText("Inicio de sesión en");
+        lblUserName.setBackground(new java.awt.Color(34, 45, 49));
+        lblUserName.setFont(new java.awt.Font("Yu Gothic Light", 0, 18)); // NOI18N
+        lblUserName.setForeground(new java.awt.Color(255, 255, 255));
+        lblUserName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblUserName.setText("Nombre usuario");
 
         jTextField2.setBackground(new java.awt.Color(54, 73, 80));
 
@@ -162,13 +174,12 @@ public class FrmMain extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LblEmpleadoOnline, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(LblPagar1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -193,6 +204,7 @@ public class FrmMain extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(55, 55, 55))
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(35, 35, 35)
@@ -206,7 +218,7 @@ public class FrmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(LblEmpleadoOnline)
+                        .addComponent(lblUserName)
                         .addGap(25, 25, 25))
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
@@ -231,7 +243,7 @@ public class FrmMain extends javax.swing.JFrame {
                         .addComponent(LblEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(LblReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LblCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(LblCerrarS, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -243,7 +255,7 @@ public class FrmMain extends javax.swing.JFrame {
                     .addContainerGap(588, Short.MAX_VALUE)))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 0, 298, 710));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 710));
 
         jPanel3.setBackground(new java.awt.Color(34, 45, 49));
 
@@ -278,7 +290,7 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(117, 117, 117)
                 .addComponent(jLabel1)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Principal", jPanel5);
@@ -291,7 +303,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel6);
@@ -304,7 +316,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab3", jPanel7);
@@ -317,7 +329,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab4", jPanel8);
@@ -330,12 +342,12 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab5", jPanel9);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 910, 650));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 910, 650));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -398,7 +410,6 @@ public class FrmMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LblCerrarS;
     private javax.swing.JLabel LblCerrarSesion;
-    private javax.swing.JLabel LblEmpleadoOnline;
     private javax.swing.JLabel LblEmpleados;
     private javax.swing.JLabel LblPagar;
     private javax.swing.JLabel LblPagar1;
@@ -423,5 +434,6 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblUserName;
     // End of variables declaration//GEN-END:variables
 }
