@@ -1,6 +1,9 @@
 /* Encriptacion contraseñas*/
 
+create database pago_de_facturacion_db;
 use pago_de_facturacion_db;
+ALTER TABLE user
+ADD FOREIGN KEY (rol_id) REFERENCES rol(id_rol);
 
 INSERT INTO `pago_de_facturacion_db`.`user_state` (`User_State_name`) VALUES ('activo');
 SELECT * FROM pago_de_facturacion_db.user_state;
