@@ -434,6 +434,6 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JLabel lblUserName;
+    public javax.swing.JLabel lblUserName;
     // End of variables declaration//GEN-END:variables
 }

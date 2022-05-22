@@ -23,7 +23,7 @@ public class UserDAO {
         try {
 
             CallableStatement qry = connection.prepareCall(query);
-            qry.setString("PUsername", user.getUser_Name());
+            qry.setString("PUsername", user.getUser_name());
             qry.setString("PEmail", user.getEmail());
             qry.setString("Ppass", user.getPassword());
 
@@ -44,6 +44,7 @@ public class UserDAO {
         return confirmation;
     }
     
+    /*Obtener datos del usuario*/
     public ArrayList<UserOnLineVM> UserOnLine(String userName, String email){
         
         ArrayList<UserOnLineVM> data = null;
@@ -59,12 +60,13 @@ public class UserDAO {
             while(rs.next()){
                 
                 UserOnLineVM userLine = new UserOnLineVM();
-                userLine.setId_User(rs.getInt("id_User"));
-                userLine.setUser_Name(rs.getString("User_Name"));
-                userLine.setEmail(rs.getString("Email"));
-                userLine.setIdEmployee(rs.getInt("idEmployee"));
-                userLine.setEmployee_name(rs.getString("Employee_name"));
-                userLine.setEmployee_Lastname(rs.getString("Employee_Lastname"));
+                userLine.setId_user(rs.getInt("id_user"));
+                userLine.setUser_name(rs.getString("user_name"));
+                userLine.setEmail(rs.getString("email"));
+                userLine.setId_employee(rs.getInt("id_employee"));
+                userLine.setEmployee_name(rs.getString("employee_name"));
+                userLine.setEmployee_lastname(rs.getString("employee_lastname"));
+                data.add(userLine);
             }
             
             connection.close();
@@ -86,8 +88,9 @@ public class UserDAO {
         try {
             
             CallableStatement cs = connection.prepareCall(query);
-            cs.setInt("p_user_state_id", user.getUser_State_id());
-            cs.setString("p_user_name", user.getUser_Name());
+            cs.setInt("p_rol_id", user.getRol_id());
+            cs.setInt("p_user_state_id", user.getUser_state_id());
+            cs.setString("p_user_name", user.getUser_name());
             cs.setString("p_email", user.getEmail());
             cs.setString("p_password", user.getPassword());
             cs.setString("p_perfil_image", user.getPerfil_image());
@@ -122,6 +125,7 @@ public class UserDAO {
                 userVM.setEmail(rs.getString(""));
                 userVM.setPassword(rs.getString(""));
                 userVM.setPerfil_image(rs.getString(""));
+                arrUser.add(userVM);
             }
             
         } catch (Exception e) {
@@ -141,12 +145,13 @@ public class UserDAO {
         try {
             
             CallableStatement cs = connection.prepareCall(query);
-            cs.setInt("p_user_state_id", user.getUser_State_id());
-            cs.setString("p_user_name", user.getUser_Name());
+            cs.setInt("p_rol_id", user.getRol_id());
+            cs.setInt("p_user_state_id", user.getUser_state_id());
+            cs.setString("p_user_name", user.getUser_name());
             cs.setString("p_email", user.getEmail());
             cs.setString("p_password", user.getPassword());
             cs.setString("p_perfil_image", user.getPerfil_image());
-            cs.setInt("p_id_user", user.getId_User());
+            cs.setInt("p_id_user", user.getId_user());
             
             cs.executeUpdate();
             
@@ -160,12 +165,12 @@ public class UserDAO {
     /* Borrado logico*/
     public void DeleteUser(User user){
         
-        String query = "call pago_de_facturacion_db.SP_D_USER(?,?,?,?,?,?)";
+        String query = "call pago_de_facturacion_db.SP_D_USER(?)";
         
         try {
             
             CallableStatement cs = connection.prepareCall(query);
-            cs.setInt("p_id_user", user.getId_User());
+            cs.setInt("p_id_user", user.getId_user());
             
             cs.executeUpdate();
             

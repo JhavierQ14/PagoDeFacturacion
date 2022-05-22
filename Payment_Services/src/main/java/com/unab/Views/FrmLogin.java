@@ -270,18 +270,28 @@ public class FrmLogin extends javax.swing.JFrame {
 
         Encryption seguridad = new Encryption();
         User user = new User();
-        FrmMain frmMain = new FrmMain();
         UserDAO userD = new UserDAO();
+        FrmMain frmMain = new FrmMain();
 
         user.setUser_Name(TxtUserName.getText());
         user.setEmail(TxtUserName.getText());
         user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
-
         int enc = userD.LogIn(user);
 
+        String uName = TxtUserName.getText();
+        String eMail = TxtUserName.getText();
+        var userOnline = userD.UserOnLine(uName, eMail);
+
         if (enc == 1) {
-            
-            frmMain.userName = user.getUser_Name();
+
+//            String u;
+//            for (var it : userOnline) {
+//
+//                u = it.getUser_Name();
+//                frmMain.lblUserName.setText(u);
+//                
+//            }
+
             frmMain.setVisible(true);
             this.dispose();
 

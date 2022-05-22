@@ -3,44 +3,60 @@ package com.unab.Entities;
 
 public class User {
 
-    public int getId_User() {
-        return id_User;
+    private int id_user;
+    private int rol_id;
+    private int user_state_id;
+    private String user_name;
+    private String email;
+    private String password;
+    private String perfil_image;
+
+    public int getId_user() {
+        return id_user;
     }
 
-    public void setId_User(int id_User) {
-        this.id_User = id_User;
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
     }
 
-    public int getUser_State_id() {
-        return User_State_id;
+    public int getRol_id() {
+        return rol_id;
     }
 
-    public void setUser_State_id(int User_State_id) {
-        this.User_State_id = User_State_id;
+    public void setRol_id(int rol_id) {
+        this.rol_id = rol_id;
     }
 
-    public String getUser_Name() {
-        return User_Name;
+    public int getUser_state_id() {
+        return user_state_id;
     }
 
-    public void setUser_Name(String User_Name) {
-        this.User_Name = User_Name;
+    public void setUser_state_id(int user_state_id) {
+        this.user_state_id = user_state_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPerfil_image() {
@@ -50,11 +66,5 @@ public class User {
     public void setPerfil_image(String perfil_image) {
         this.perfil_image = perfil_image;
     }
-    int id_User;
-    int User_State_id;
-    String User_Name;
-    String Email;
-    String Password;
-    String perfil_image;
     
 }
