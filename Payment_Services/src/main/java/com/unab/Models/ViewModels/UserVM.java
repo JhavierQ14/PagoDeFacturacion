@@ -3,45 +3,36 @@ package com.unab.Models.ViewModels;
 
 
 public class UserVM {
+    
+    String user_name;
+    String email;
+    String password;
+    String perfil_image;
+    String user_state_name;
+    String rol_name;
 
-    public String getUser_State_name() {
-        return User_State_name;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUser_State_name(String User_State_name) {
-        this.User_State_name = User_State_name;
-    }
-
-    public String getRol_name() {
-        return rol_name;
-    }
-
-    public void setRol_name(String rol_name) {
-        this.rol_name = rol_name;
-    }
-
-    public String getUser_Name() {
-        return User_Name;
-    }
-
-    public void setUser_Name(String User_Name) {
-        this.User_Name = User_Name;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPerfil_image() {
@@ -51,12 +42,21 @@ public class UserVM {
     public void setPerfil_image(String perfil_image) {
         this.perfil_image = perfil_image;
     }
-    
-    String User_State_name;
-    String rol_name;
-    String User_Name;
-    String Email;
-    String Password;
-    String perfil_image;
+
+    public String getUser_state_name() {
+        return user_state_name;
+    }
+
+    public void setUser_state_name(String user_state_name) {
+        this.user_state_name = user_state_name;
+    }
+
+    public String getRol_name() {
+        return rol_name;
+    }
+
+    public void setRol_name(String rol_name) {
+        this.rol_name = rol_name;
+    }
     
 }

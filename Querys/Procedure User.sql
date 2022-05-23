@@ -9,7 +9,9 @@ CREATE PROCEDURE SP_C_USER(p_rol_id int, p_user_state_id int, p_user_name varcha
 
 /*READ USER*/
 CREATE PROCEDURE SP_R_USER()
-	SELECT * FROM user; 
+	select user.user_name, user.email, user.password, user_state.user_state_name,rol.rol_name from user
+	inner join user_state on user.user_state_id = user_state.id_user_state
+    inner join rol on user.rol_id = rol.id_rol;
 
 /*UPDATE USER*/
 CREATE PROCEDURE SP_U_USER(p_rol_id int, p_user_state_id int, p_user_name varchar(64), p_email varchar(64), p_password varchar(256), p_perfil_img varchar(128), p_id_user int)
