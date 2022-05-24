@@ -2,9 +2,11 @@ package com.unab.Views;
 
 import com.unab.Models.ViewModels.*;
 import com.unab.Controllers.*;
+import com.unab.Entities.Rol;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import java.util.*;
 
 public class FrmMain extends javax.swing.JFrame {
 
@@ -13,10 +15,13 @@ public class FrmMain extends javax.swing.JFrame {
 
         LoadImage();
         LoadTbl();
+        LoadCbxRol();
     }
 
     UserController userC = new UserController();
     UserVM userVM = new UserVM();
+    RolController rolC = new RolController();
+//    Rol rol;
     FrmLogin Cerrar = new FrmLogin();
     DefaultTableModel dtm;
 
@@ -33,11 +38,12 @@ public class FrmMain extends javax.swing.JFrame {
         LblCerrarS.setIcon(new ImageIcon("src/main/resources/Images/out24.png"));
     }
 
+// Cargar Tabla Usuarios
     public void LoadTbl() {
 
         var listUser = userC.ReadUser();
         String row[] = new String[6];
-        dtm = (DefaultTableModel)tblUser.getModel();
+        dtm = (DefaultTableModel) tblUser.getModel();
 
         for (var iteration : listUser) {
 
@@ -49,8 +55,20 @@ public class FrmMain extends javax.swing.JFrame {
             row[5] = iteration.getRol_name();
             dtm.addRow(row);
         }
+    }
 
-//        tblUser.setModel(dtm);
+    public void LoadCbxRol() {
+
+        cbxUserRol.removeAllItems();
+        var lRol = rolC.ReadRol();
+        Iterator iterator = lRol.iterator();
+
+        while (iterator.hasNext()) {
+
+            Rol rol = (Rol) iterator.next();
+            cbxUserRol.addItem(rol.toString());
+
+        }
     }
 
     @SuppressWarnings("unchecked")

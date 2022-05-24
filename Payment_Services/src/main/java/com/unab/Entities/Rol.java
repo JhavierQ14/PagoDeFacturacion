@@ -10,12 +10,25 @@ package com.unab.Entities;
  */
 public class Rol {
 
-    public int getId_Rol() {
-        return id_Rol;
+    int id_rol;
+    String rol_name;
+
+    public Rol() {
+        this.id_rol = 0;
+        this.rol_name = "";
     }
 
-    public void setId_Rol(int id_Rol) {
-        this.id_Rol = id_Rol;
+    @Override
+    public String toString() {
+        return getRol_name();
+    }
+
+    public int getId_rol() {
+        return id_rol;
+    }
+
+    public void setId_rol(int id_rol) {
+        this.id_rol = id_rol;
     }
 
     public String getRol_name() {
@@ -25,6 +38,4 @@ public class Rol {
     public void setRol_name(String rol_name) {
         this.rol_name = rol_name;
     }
-    int id_Rol;
-    String rol_name;
 }
