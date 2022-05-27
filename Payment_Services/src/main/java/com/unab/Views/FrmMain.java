@@ -2,7 +2,7 @@ package com.unab.Views;
 
 import com.unab.Models.ViewModels.*;
 import com.unab.Controllers.*;
-import com.unab.Entities.Rol;
+import com.unab.Entities.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -16,12 +16,15 @@ public class FrmMain extends javax.swing.JFrame {
         LoadImage();
         LoadTbl();
         LoadCbxRol();
+        LoadCbxUState();
     }
 
     UserController userC = new UserController();
     UserVM userVM = new UserVM();
     RolController rolC = new RolController();
 //    Rol rol;
+    UserStateController userSC = new UserStateController();
+//    UserState userState = new UserState();
     FrmLogin Cerrar = new FrmLogin();
     DefaultTableModel dtm;
 
@@ -56,6 +59,7 @@ public class FrmMain extends javax.swing.JFrame {
             dtm.addRow(row);
         }
     }
+    // Cargar Combobox
 
     public void LoadCbxRol() {
 
@@ -69,6 +73,33 @@ public class FrmMain extends javax.swing.JFrame {
             cbxUserRol.addItem(rol.toString());
 
         }
+    }
+
+    public void LoadCbxUState() {
+
+        cbxUserState.removeAllItems();
+        var luState = userSC.ReadUserState();
+        Iterator iterator = luState.iterator();
+
+        while (iterator.hasNext()) {
+
+            UserState userState = (UserState) iterator.next();
+            cbxUserState.addItem(userState.toString());
+
+        }
+
+    }
+
+    // Limpiar Campos
+    public void Clear() {
+
+        txtUserName.setText("");
+        txtEmail.setText("");
+        txtPassword.setText("");
+        cbxUserRol.removeAllItems();
+        cbxUserState.removeAllItems();
+        LoadCbxRol();
+        LoadCbxUState();
     }
 
     @SuppressWarnings("unchecked")
@@ -407,6 +438,11 @@ public class FrmMain extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
         btnClear.setText("Limpiar");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Nombre de usuario");
 
@@ -612,6 +648,11 @@ public class FrmMain extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_LblCerrarSesionMouseClicked
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+
+        Clear();
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments

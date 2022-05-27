@@ -30,5 +30,5 @@ select user.user_name, user.email, user.password, user.perfil_image, user_state.
 select user.id_User, user.User_Name, user.Email, employee.idEmployee, employee.Employee_name, employee.Employee_Lastname from employee
 inner join user on employee.user_id = user.id_User where user.User_Name = 'admin' || user.Email = 'admin@gmail.com';
     
-
+select * from pago_de_facturacion_db.rol;
 
