@@ -69,7 +69,7 @@ public class UserDAO {
                 data.add(userLine);
             }
 
-            connection.close();
+            
 
         } catch (Exception e) {
 
@@ -83,7 +83,7 @@ public class UserDAO {
  /*Crear Usuario*/
     public void CreateUser(User user) {
 
-        String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?,?)}";
+        String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?)}";
 
         try {
 
@@ -93,7 +93,7 @@ public class UserDAO {
             cs.setString("p_user_name", user.getUser_name());
             cs.setString("p_email", user.getEmail());
             cs.setString("p_password", user.getPassword());
-            cs.setString("p_perfil_image", user.getPerfil_image());
+          //  cs.setString("p_perfil_image", user.getPerfil_image());
 
             cs.executeUpdate();
 

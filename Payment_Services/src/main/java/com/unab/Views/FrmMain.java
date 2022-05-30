@@ -27,7 +27,10 @@ public class FrmMain extends javax.swing.JFrame {
 //    UserState userState = new UserState();
     FrmLogin Cerrar = new FrmLogin();
     DefaultTableModel dtm;
-
+   
+    
+   
+    
     public String userName = null;
     public String emailU = null;
 
@@ -72,6 +75,7 @@ public class FrmMain extends javax.swing.JFrame {
             Rol rol = (Rol) iterator.next();
             cbxUserRol.addItem(rol.toString());
 
+            
         }
     }
 
@@ -367,7 +371,7 @@ public class FrmMain extends javax.swing.JFrame {
             .addGap(0, 57, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(306, 0, 920, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 920, -1));
 
         jTabbedPane1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -581,6 +585,11 @@ public class FrmMain extends javax.swing.JFrame {
         jLabel5.setText("Buscar :");
 
         btnUpdate.setText("Actualizar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Eliminar");
 
@@ -653,6 +662,32 @@ public class FrmMain extends javax.swing.JFrame {
 
         Clear();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+//        int id_Rol;
+//        Rol rol=(Rol) cbxUserRol.getSelectedItem();
+//        id_Rol=rol.getId_rol();
+//        
+//          int iduser_state;
+//          UserState state =(UserState)  cbxUserState.getSelectedItem();
+//          iduser_state = state.getId_user_state();
+//    
+        
+        User user= new User();
+        UserController controller = new UserController();
+        user.setRol_id(/*id_Rol*/1);
+        user.setUser_state_id(/*iduser_state */1);
+        user.setUser_name(txtUserName.getText());
+        user.setEmail(txtEmail.getText());
+        user.setPassword(String.valueOf(txtPassword.getPassword()));
+        
+        controller.CreateUser(user);
+        
+        Clear();
+        
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
