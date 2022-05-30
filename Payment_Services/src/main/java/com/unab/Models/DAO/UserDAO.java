@@ -83,7 +83,7 @@ public class UserDAO {
  /*Crear Usuario*/
     public void CreateUser(User user) {
 
-        String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?)}";
+        String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?,?)}";
 
         try {
 
