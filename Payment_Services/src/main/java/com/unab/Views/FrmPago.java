@@ -4,6 +4,19 @@
  */
 package com.unab.Views;
 
+import com.unab.Entities.Factura_Datos;
+import com.unab.Entities.Invoce_Type;
+import com.unab.Entities.Tbl_metodo_pago;
+import com.unab.Entities.Transaccion;
+import com.unab.Models.DAO.FacturaDAO;
+import com.unab.Models.DAO.TipoFDAO;
+import com.unab.Models.DAO.TransactionDAO;
+import com.unab.Models.DAO.payment_methodDAO;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 
 
 /**
@@ -17,9 +30,113 @@ public class FrmPago extends javax.swing.JFrame {
      */
     public FrmPago() {
         initComponents();
-       
+       txtMonto.setText("0");
+        limpiardatos();
+        Comboboxs();
+        Completardatos();
     }
+    int ValuememberTF[];
+    int ValuememberTP[];
+    public void Comboboxs() {
+        TipoFDAO tfd = new TipoFDAO();
+        ArrayList<Invoce_Type> listadoF = tfd.ListarTiposFactura();
+        Iterator iteradorF = listadoF.iterator();
+        DefaultComboBoxModel DefaultComboBoxModelF = new DefaultComboBoxModel();
+        DefaultComboBoxModelF.removeAllElements();
+        cbTipoFactura.removeAll();
+        String filasF[] = new String[2];
+        
+        ValuememberTF = new int[listadoF.size()];
+        
+        int contadorF=0;
+        while (iteradorF.hasNext()) {
+            Invoce_Type InvoiceCls;
+            InvoiceCls = (Invoce_Type) iteradorF.next();
+            ValuememberTF [contadorF]= InvoiceCls.getId_invoice();
+            DefaultComboBoxModelF.addElement(InvoiceCls.getI_type_name());
+            contadorF++;
+        }
+        cbTipoFactura.setModel(DefaultComboBoxModelF);
+        
+        ////////////////////////////////////////////////////////////////////////
+        payment_methodDAO pd= new payment_methodDAO();
+        ArrayList<Tbl_metodo_pago> listadoM = pd.ListarMetodos();
+        Iterator iteradorM = listadoM.iterator();
+        DefaultComboBoxModel DefaultComboBoxModelM = new DefaultComboBoxModel();
+        DefaultComboBoxModelM.removeAllElements();
+        cbTipoPago.removeAll();
+        String filasM[] = new String[2];
+        
+        ValuememberTP = new int[listadoM.size()];
+        
+        int contadorM=0;
+        while (iteradorM.hasNext()) {
+            Tbl_metodo_pago metodop;
+            metodop = (Tbl_metodo_pago) iteradorM.next();
+            ValuememberTF [contadorM]= metodop.getIdTbl_Metodo_pago();
+            DefaultComboBoxModelM.addElement(metodop.getTipo_Pago());
+            contadorM++;
+        }
+        cbTipoPago.setModel(DefaultComboBoxModelM);
+    }
+    public void Completardatos() {
+        
+        double iva = 13;
+        double Tpagar = Double.valueOf(txtMonto.getText()) + (Double.valueOf(txtMonto.getText()) * (iva / 100));
+       
+        String tpagart = String.valueOf(Tpagar);
+        txtIva.setText(iva + "%");
+        txtTotalPagar.setText(tpagart);
+        
+        
+        
+        TransactionDAO TD = new TransactionDAO();
+        ArrayList listaT = TD.Listartransacciones();
+        Iterator iterador = listaT.iterator();
+        
+        
+        int cod_fact=0;
+        while (iterador.hasNext()) {
+            Transaccion T=(Transaccion) iterador.next();
+            
+            cod_fact=(T.getTransaction_cod())+1;
+            break;
+        }
+        N_Factura.setText(String.valueOf(cod_fact));
+    }
+    public void bs(int nic) {
+        
+            
+        int tdf = ValuememberTF[cbTipoFactura.getSelectedIndex()];
+        
 
+        FacturaDAO FDAO = new FacturaDAO();
+        ArrayList<Factura_Datos> listado = FDAO.BuscarF(nic,tdf);
+        Iterator iterador = listado.iterator();
+        double suma = 0;
+        int canfact = 0;
+        while (iterador.hasNext()) {
+            Factura_Datos dts = (Factura_Datos) iterador.next();
+            canfact = canfact + 1;
+            suma = suma + dts.getDeuda();
+            txtMonto.setText(String.valueOf(suma));
+            txtPagosPendientes.setText(String.valueOf(canfact));
+            Completardatos();
+        }
+
+    }
+    public void limpiardatos(){
+double iva = 13;
+txtIva.setText(iva + "%");
+    txtMonto.setText("0");
+    txtNIC.setText("");
+    txtNombre.setText("");
+    txtPagosPendientes.setText("0");
+    txtTotalPagar.setText("0");
+    
+    
+    
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,6 +167,13 @@ public class FrmPago extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnPagar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        txtTAPagar = new javax.swing.JTextField();
+        txtCambio = new javax.swing.JTextField();
+        txtPagaCon = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,13 +213,10 @@ public class FrmPago extends javax.swing.JFrame {
 
         tblFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "CLIENTE", "NIC", "PAGO SIN IVA", "Title 4"
             }
         ));
         jScrollPane1.setViewportView(tblFacturas);
@@ -105,10 +226,39 @@ public class FrmPago extends javax.swing.JFrame {
         cbTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
         btnPagar.setText("Pagar");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        txtTAPagar.setEditable(false);
+        txtTAPagar.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        txtTAPagar.setText("0.0");
+
+        txtCambio.setEditable(false);
+        txtCambio.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        txtCambio.setText("0.0");
+
+        txtPagaCon.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        txtPagaCon.setText("0.0");
+
+        jLabel4.setText("TOTAL");
+
+        jLabel9.setText("PAGA CON");
+
+        jLabel10.setText("CAMBIO");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,36 +267,6 @@ public class FrmPago extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPagosPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNIC, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(N_Factura, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,14 +275,61 @@ public class FrmPago extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cbTipoPago, 0, 156, Short.MAX_VALUE)
-                            .addComponent(cbTipoFactura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cbTipoFactura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(42, 42, 42)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtNIC, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(btnBuscar)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPagosPendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(43, 43, 43)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))))
                 .addGap(22, 22, 22))
             .addGroup(layout.createSequentialGroup()
-                .addGap(202, 202, 202)
+                .addGap(210, 210, 210)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
+                .addGap(58, 58, 58)
                 .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(378, 378, 378)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtPagaCon)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCambio)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
+                .addGap(151, 151, 151))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,8 +350,10 @@ public class FrmPago extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))))
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
@@ -200,11 +369,21 @@ public class FrmPago extends javax.swing.JFrame {
                     .addComponent(btnAgregar))
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPagaCon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnPagar))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(39, 39, 39))
         );
 
         pack();
@@ -217,6 +396,36 @@ public class FrmPago extends javax.swing.JFrame {
     private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMontoActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        bs(Integer.valueOf(txtNIC.getText()));
+//       
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        double TotalAPagar=0 ;
+        
+        DefaultTableModel df = (DefaultTableModel) tblFacturas.getModel();
+        String fila[]= new String[4];
+                
+                fila[0]= txtNombre.getText();
+                fila[1]= txtNIC.getText();
+                fila[2]= txtMonto.getText();
+                fila[3]= txtTotalPagar.getText();
+                
+                df.addRow(fila);
+                
+                tblFacturas.setModel(df);
+                
+                 for (int i = 0; i < tblFacturas.getRowCount(); i++) {
+                            String tapg= (String)tblFacturas.getValueAt(i,3);
+                            TotalAPagar=TotalAPagar+(Double.valueOf(tapg));
+                         }
+                 txtTAPagar.setText(String.valueOf(TotalAPagar));
+                 limpiardatos();
+    }//GEN-LAST:event_btnAgregarActionPerformed
     
    
     
@@ -258,24 +467,31 @@ public class FrmPago extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField N_Factura;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnPagar;
     private javax.swing.JComboBox<String> cbTipoFactura;
     private javax.swing.JComboBox<String> cbTipoPago;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblFacturas;
+    private javax.swing.JTextField txtCambio;
     private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtMonto;
     private javax.swing.JTextField txtNIC;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPagaCon;
     private javax.swing.JTextField txtPagosPendientes;
+    private javax.swing.JTextField txtTAPagar;
     private javax.swing.JTextField txtTotalPagar;
     // End of variables declaration//GEN-END:variables
 }
