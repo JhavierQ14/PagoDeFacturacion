@@ -32,7 +32,7 @@ public class UserStateDAO {
             
         } catch (Exception e) {
             
-            JOptionPane.showMessageDialog(null, "Error " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error ReadUserState() " + e.toString());
             
         }
         
