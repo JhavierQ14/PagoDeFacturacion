@@ -168,7 +168,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtTAPagar" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="txtCambio" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                  <Component id="txtPagaCon" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="txtPagaCon" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="34" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
