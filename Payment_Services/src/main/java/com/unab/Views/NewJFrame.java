@@ -5,8 +5,12 @@
 package com.unab.Views;
 
 import com.unab.Entities.Transaccion;
+import com.unab.Entities.Transacction_detail;
 import com.unab.Models.DAO.TransactionDAO;
+import com.unab.Models.DAO.Transaction_DetailDAO;
+import static com.unab.Views.FrmPago.Transacciond;
 import static com.unab.Views.FrmPago.lista;
+import java.util.Iterator;
 
 /**
  *
@@ -63,10 +67,29 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        TransactionDAO td = new TransactionDAO();
-        td.InsertarTransaccion(lista);
+          TransactionDAO td = new TransactionDAO();
+          td.InsertarTransaccion(lista);
+          Guardardetalles();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    public void Guardardetalles(){
+    
+    Iterator iterador = Transacciond.iterator();
+    Transacction_detail tdl = new Transacction_detail();
+    while (iterador.hasNext()) {
+            Transaction_DetailDAO tdo = new Transaction_DetailDAO();
+            Transacction_detail td = (Transacction_detail) iterador.next();
+            tdl.setDescription(td.getDescription());
+            tdl.setAmount(td.getAmount());
+            tdl.setUnit_price(td.getUnit_price());
+            tdl.setI_invoice_type(td.getI_invoice_type());
+            tdl.setTransaction_id(td.getTransaction_id());
+            tdl.setIva(td.getIva());
+            tdl.setQuantity(td.getQuantity());
+            tdo.InsertarTransaccionD(tdl);
+        }
+    }
     /**
      * @param args the command line arguments
      */

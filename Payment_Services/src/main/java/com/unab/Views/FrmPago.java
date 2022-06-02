@@ -133,7 +133,7 @@ public class FrmPago extends javax.swing.JFrame {
     tc.setAmount_transaction(Double.valueOf(txtTAPagar.getText()));
     tc.setPayment_method_id(ValuememberTP[cbTipoPago.getSelectedIndex()]);
     tc.setTransaction_cod(Integer.valueOf(N_Factura.getText()));
-    tc.setTransaction_type_id(ValuememberTF[cbTipoFactura.getSelectedIndex()]);
+    tc.setTransaction_type_id(1);
     tc.setUser_id(1);
     tc.setCliente(txtNombre.getText());
     lista = tc;
@@ -468,16 +468,10 @@ txtIva.setText(iva + "%");
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
         // TODO add your handling code here:
-//        NewJFrame fr=new NewJFrame();
-//        fr.setVisible(true);
+        NewJFrame fr=new NewJFrame();
+        fr.setVisible(true);
 //        
-    Iterator iterador = Transacciond.iterator();
     
-    while (iterador.hasNext()) {
-            Transacction_detail td = (Transacction_detail) iterador.next();
-            System.out.println(td.getDescription());
-  
-        }
     }//GEN-LAST:event_btnPagarActionPerformed
     
    

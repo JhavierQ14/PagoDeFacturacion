@@ -5,7 +5,6 @@
 package com.unab.Models.DAO;
 
 import com.unab.DB.ConnectionDB;
-import com.unab.Entities.Invoce_Type;
 import com.unab.Entities.Transaccion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -64,7 +63,7 @@ public class TransactionDAO {
             
             cb.execute();
             
-            JOptionPane.showMessageDialog(null, "Persona agregada","Mensje sistems",1);
+            JOptionPane.showMessageDialog(null, "Transaccion Completa","Mensje sistems",1);
         } catch (SQLException ex){
             JOptionPane.showMessageDialog(null, "Error"+ex,"Mensje sistems",1);
             
