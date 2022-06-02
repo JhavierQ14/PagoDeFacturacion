@@ -4,19 +4,16 @@
  */
 package com.unab.Views;
 
+//import com.unab.Views.Menu.FrmP;
 import com.unab.Entities.User;
-import com.unab.Controllers.UserController;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import javax.swing.ImageIcon;
+import com.unab.Models.DAO.UserDAO;
 import com.unab.Security.*;
-
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 public class FrmLogin extends javax.swing.JFrame {
-
-    Encryption security = new Encryption();
-    User user = new User();
-    UserController userC = new UserController();
-    FrmMain frmMain = new FrmMain();
 
     public FrmLogin() {
         initComponents();
@@ -254,30 +251,30 @@ public class FrmLogin extends javax.swing.JFrame {
         Point p = MouseInfo.getPointerInfo().getLocation();
         this.setLocation(p.x - x, p.y - y);
     }//GEN-LAST:event_jPanel1MouseDragged
-    //********************************************************************************************************************************************************
-    // validacion de usuario
+
     private void LblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblNextMouseClicked
+        //FrmP menu = new FrmP();
+
+        Encryption seguridad = new Encryption();
+        User user = new User();
+        UserDAO userD = new UserDAO();
+        FrmMain frmMain = new FrmMain();
 
         user.setUser_name(TxtUserName.getText());
+        user.setEmail(TxtUserName.getText());
         user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
-        
-        int enc = userC.LogIn(user);
+        int enc = userD.LogIn(user);
 
         String uName = TxtUserName.getText();
-
-        var userOnline = userC.UserOnLine(uName);
+        String eMail = TxtUserName.getText();
+        var userOnline = userD.UserOnLine(uName, eMail);
 
         if (enc == 1) {
 
             String u;
             for (var it : userOnline) {
                 
-                frmMain.idUser = it.getId_user();
                 frmMain.userName = it.getUser_name();
-                frmMain.stateName = it.getUser_state_name();
-                frmMain.rolName = it.getRol_name();
-                frmMain.rolName = it.getEmployee_name();
-                frmMain.rolName = it.getEmployee_lastname();
                 u = it.getEmployee_name() + " " + it.getEmployee_lastname();
                 frmMain.lblUserName.setText(u);
 

@@ -5,8 +5,8 @@ public class UserOnLineVM {
     
     private int id_user;
     private String user_name;
-    private String user_state_name;
-    private String rol_name;
+    private String email;
+    private int id_employee;
     private String employee_name;
     private String employee_lastname;
 
@@ -26,20 +26,20 @@ public class UserOnLineVM {
         this.user_name = user_name;
     }
 
-    public String getUser_state_name() {
-        return user_state_name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUser_state_name(String user_state_name) {
-        this.user_state_name = user_state_name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getRol_name() {
-        return rol_name;
+    public int getId_employee() {
+        return id_employee;
     }
 
-    public void setRol_name(String rol_name) {
-        this.rol_name = rol_name;
+    public void setId_employee(int id_employee) {
+        this.id_employee = id_employee;
     }
 
     public String getEmployee_name() {

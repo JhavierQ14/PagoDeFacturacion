@@ -12,9 +12,9 @@ public class UserController {
     
     public int LogIn(User user){ return uDAO.LogIn(user); }
     
-    public ArrayList<UserOnLineVM> UserOnLine(String u) {
+    public ArrayList<UserOnLineVM> UserOnLine(String u, String e) {
         
-        return uDAO.UserOnLine(u);
+        return uDAO.UserOnLine(u, e);
     }
     
     public void CreateUser(User user){ uDAO.CreateUser(user); }

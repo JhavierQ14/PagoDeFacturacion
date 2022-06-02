@@ -7,7 +7,9 @@ public class User {
     private int rol_id;
     private int user_state_id;
     private String user_name;
+    private String email;
     private String password;
+    private String perfil_image;
 
     public int getId_user() {
         return id_user;
@@ -41,12 +43,28 @@ public class User {
         this.user_name = user_name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPerfil_image() {
+        return perfil_image;
+    }
+
+    public void setPerfil_image(String perfil_image) {
+        this.perfil_image = perfil_image;
     }
     
 }

@@ -17,12 +17,13 @@ public class UserDAO {
     public int LogIn(User user) {
 
         int confirmation = 0;
-        String query = "{call pago_de_facturacion_db.SP_VALIDATION_USER(?,?)}";
+        String query = "{call pago_de_facturacion_db.SP_VALIDATION_USER(?,?,?)}";
 
         try {
 
             CallableStatement qry = connection.prepareCall(query);
             qry.setString("PUsername", user.getUser_name());
+            qry.setString("PEmail", user.getEmail());
             qry.setString("Ppass", user.getPassword());
 
             ResultSet rs = qry.executeQuery();
@@ -34,7 +35,7 @@ public class UserDAO {
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, "Error LogIn " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error " + e.toString());
 
         }
 
@@ -43,16 +44,17 @@ public class UserDAO {
 
     /*----------------------------------------------------------------------------------------------------------------------*/
  /*Obtener datos del usuario*/
-    public ArrayList<UserOnLineVM> UserOnLine(String userName) {
+    public ArrayList<UserOnLineVM> UserOnLine(String userName, String email) {
 
         ArrayList<UserOnLineVM> data = null;
-        String query = "call pago_de_facturacion_db.SP_ONLINE_USER(?)";
+        String query = "call pago_de_facturacion_db.SP_ONLINE_USER(?,?)";
 
         try {
 
             data = new ArrayList<UserOnLineVM>();
             CallableStatement cs = connection.prepareCall(query);
             cs.setString("PUsername", userName);
+            cs.setString("PEmail", email);
             ResultSet rs = cs.executeQuery();
 
             while (rs.next()) {
@@ -60,24 +62,28 @@ public class UserDAO {
                 UserOnLineVM userLine = new UserOnLineVM();
                 userLine.setId_user(rs.getInt("id_user"));
                 userLine.setUser_name(rs.getString("user_name"));
+                userLine.setEmail(rs.getString("email"));
+                userLine.setId_employee(rs.getInt("id_employee"));
                 userLine.setEmployee_name(rs.getString("employee_name"));
                 userLine.setEmployee_lastname(rs.getString("employee_lastname"));
                 data.add(userLine);
-            }          
+            }
+
+            
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, "Error UserOnLine " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error " + e.toString());
         }
 
         return data;
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /*Crear Usuario*/
+ /*Crear Usuario*/
     public void CreateUser(User user) {
 
-        String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?)}";
+        String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?,?)}";
 
         try {
 
@@ -85,18 +91,21 @@ public class UserDAO {
             cs.setInt("p_rol_id", user.getRol_id());
             cs.setInt("p_user_state_id", user.getUser_state_id());
             cs.setString("p_user_name", user.getUser_name());
+            cs.setString("p_email", user.getEmail());
             cs.setString("p_password", user.getPassword());
+          //  cs.setString("p_perfil_image", user.getPerfil_image());
+
             cs.executeUpdate();
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, "Error CreateUser " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error " + e.toString());
 
         }
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /* Mostrar usuario*/
+ /* Mostrar usuario*/
     public ArrayList<UserVM> ReadUser() {
 
         ArrayList<UserVM> arrUser = new ArrayList<UserVM>();
@@ -110,10 +119,11 @@ public class UserDAO {
             while (rs.next()) {
 
                 UserVM userVM = new UserVM();
-                
-                userVM.setId_user(rs.getInt("id_user"));
+            
                 userVM.setUser_name(rs.getString("user_name"));
+                userVM.setEmail(rs.getString("email"));
                 userVM.setPassword(rs.getString("password"));
+                userVM.setPerfil_image(rs.getString("perfil_image"));
                 userVM.setUser_state_name(rs.getString("user_state_name"));
                 userVM.setRol_name(rs.getString("rol_name"));
                 arrUser.add(userVM);
@@ -121,7 +131,7 @@ public class UserDAO {
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, "Error ReadUser " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error " + e.toString());
 
         }
 
@@ -129,10 +139,10 @@ public class UserDAO {
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /* Actualizar usuario*/
+ /* Actualizar usuario*/
     public void UpdateUser(User user) {
 
-        String query = "{call pago_de_facturacion_db.SP_U_USER(?,?,?,?)}";
+        String query = "call pago_de_facturacion_db.SP_U_USER(?,?,?,?,?,?)";
 
         try {
 
@@ -140,19 +150,22 @@ public class UserDAO {
             cs.setInt("p_rol_id", user.getRol_id());
             cs.setInt("p_user_state_id", user.getUser_state_id());
             cs.setString("p_user_name", user.getUser_name());
+            cs.setString("p_email", user.getEmail());
+            cs.setString("p_password", user.getPassword());
+            cs.setString("p_perfil_image", user.getPerfil_image());
             cs.setInt("p_id_user", user.getId_user());
 
             cs.executeUpdate();
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null, "Error UpdateUser " + e.toString());
+            JOptionPane.showMessageDialog(null, "Error " + e.toString());
 
         }
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /* Borrado logico*/
+ /* Borrado logico*/
     public void DeleteUser(User user) {
 
         String query = "call pago_de_facturacion_db.SP_D_USER(?)";

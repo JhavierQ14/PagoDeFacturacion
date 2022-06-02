@@ -5,6 +5,16 @@ public class UserState {
     int id_user_state;
     String user_state_name;
 
+    public UserState() {
+        this.id_user_state = 0;
+        this.user_state_name = "";
+    }
+
+    @Override
+    public String toString() {
+        return user_state_name;
+    }
+
     public int getId_user_state() {
         return id_user_state;
     }
