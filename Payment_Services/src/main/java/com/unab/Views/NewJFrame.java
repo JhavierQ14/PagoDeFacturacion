@@ -71,6 +71,9 @@ public class NewJFrame extends javax.swing.JFrame {
           TransactionDAO td = new TransactionDAO();
           td.InsertarTransaccion(lista);
           Guardardetalles();
+          FrmPago frmp = new FrmPago();
+          frmp.setVisible(true);
+          this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
@@ -90,6 +93,7 @@ public class NewJFrame extends javax.swing.JFrame {
             tdl.setQuantity(td.getQuantity());
             tdo.InsertarTransaccionD(tdl);
         }
+    
     }
     /**
      * @param args the command line arguments

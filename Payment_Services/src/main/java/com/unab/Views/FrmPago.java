@@ -136,6 +136,7 @@ public class FrmPago extends javax.swing.JFrame {
     /*----------------------------------------------------------------------------*/
     static Transaccion lista;
     public void InsertarTransaccion(){
+//        FrmMain frm= new FrmMain();
     Transaccion tc = new Transaccion();
     
     tc.setAmount_transaction(Double.valueOf(txtTAPagar.getText()));
@@ -491,6 +492,7 @@ txtIva.setText(iva + "%");
         // TODO add your handling code here:
         NewJFrame fr=new NewJFrame();
         fr.setVisible(true);
+        this.dispose();
         
 //        
     
