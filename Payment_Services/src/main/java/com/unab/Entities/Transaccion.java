@@ -74,4 +74,14 @@ public class Transaccion {
     int transaction_cod;
     Date transaciton_date;
     double amount_transaction;
+    String Cliente;
+
+    public String getCliente() {
+        return Cliente;
+    }
+
+    public void setCliente(String Cliente) {
+        this.Cliente = Cliente;
+    }
+    
 }

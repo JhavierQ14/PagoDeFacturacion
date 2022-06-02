@@ -8,6 +8,7 @@ import com.unab.Entities.Factura_Datos;
 import com.unab.Entities.Invoce_Type;
 import com.unab.Entities.Tbl_metodo_pago;
 import com.unab.Entities.Transaccion;
+import com.unab.Entities.Transacction_detail;
 import com.unab.Models.DAO.FacturaDAO;
 import com.unab.Models.DAO.TipoFDAO;
 import com.unab.Models.DAO.TransactionDAO;
@@ -73,7 +74,7 @@ public class FrmPago extends javax.swing.JFrame {
         while (iteradorM.hasNext()) {
             Tbl_metodo_pago metodop;
             metodop = (Tbl_metodo_pago) iteradorM.next();
-            ValuememberTF [contadorM]= metodop.getIdTbl_Metodo_pago();
+            ValuememberTP [contadorM]= metodop.getIdTbl_Metodo_pago();
             DefaultComboBoxModelM.addElement(metodop.getTipo_Pago());
             contadorM++;
         }
@@ -124,6 +125,35 @@ public class FrmPago extends javax.swing.JFrame {
             Completardatos();
         }
 
+    }
+    static Transaccion lista;
+    public void InsertarTransaccion(){
+    Transaccion tc = new Transaccion();
+    
+    tc.setAmount_transaction(Double.valueOf(txtTAPagar.getText()));
+    tc.setPayment_method_id(ValuememberTP[cbTipoPago.getSelectedIndex()]);
+    tc.setTransaction_cod(Integer.valueOf(N_Factura.getText()));
+    tc.setTransaction_type_id(ValuememberTF[cbTipoFactura.getSelectedIndex()]);
+    tc.setUser_id(1);
+    tc.setCliente(txtNombre.getText());
+    lista = tc;
+    }
+    static ArrayList<Transacction_detail> Transacciond = new ArrayList<Transacction_detail>();
+    public void InsertarDetallesT(){
+    
+                            Transacction_detail td = new Transacction_detail();
+                            td.setTransaction_id(Integer.valueOf(N_Factura.getText()));
+                            td.setI_invoice_type(ValuememberTF[cbTipoFactura.getSelectedIndex()]);
+                            String iva =txtIva.getText();
+                            iva=iva.replace("%", "");
+                            td.setIva(Double.valueOf(iva));
+                            td.setQuantity(Integer.valueOf(txtPagosPendientes.getText()));
+                            td.setUnit_price(Double.valueOf(txtMonto.getText())); 
+                            td.setAmount(Double.valueOf(txtTotalPagar.getText()));
+                            td.setDescription("Se realizo un pago de la factura con NIC: "+txtNIC.getText()+",De una deuda de "+txtMonto.getText());
+                            
+                            Transacciond.add(td);
+                         
     }
     public void limpiardatos(){
 double iva = 13;
@@ -235,6 +265,11 @@ txtIva.setText(iva + "%");
         btnCancelar.setText("Cancelar");
 
         btnPagar.setText("Pagar");
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -375,10 +410,11 @@ txtIva.setText(iva + "%");
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPagaCon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPagaCon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTAPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -424,8 +460,25 @@ txtIva.setText(iva + "%");
                             TotalAPagar=TotalAPagar+(Double.valueOf(tapg));
                          }
                  txtTAPagar.setText(String.valueOf(TotalAPagar));
+                 InsertarTransaccion();
+                 InsertarDetallesT();
                  limpiardatos();
+                 
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+        // TODO add your handling code here:
+//        NewJFrame fr=new NewJFrame();
+//        fr.setVisible(true);
+//        
+    Iterator iterador = Transacciond.iterator();
+    
+    while (iterador.hasNext()) {
+            Transacction_detail td = (Transacction_detail) iterador.next();
+            System.out.println(td.getDescription());
+  
+        }
+    }//GEN-LAST:event_btnPagarActionPerformed
     
    
     

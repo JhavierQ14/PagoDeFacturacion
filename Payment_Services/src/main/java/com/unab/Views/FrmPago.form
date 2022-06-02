@@ -165,10 +165,12 @@
                   <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtTAPagar" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                  <Component id="txtCambio" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                  <Component id="txtPagaCon" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="txtPagaCon" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtTAPagar" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="txtCambio" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="34" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -322,6 +324,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Pagar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPagarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnBuscar">
       <Properties>

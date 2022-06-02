@@ -10,49 +10,78 @@ package com.unab.Entities;
  */
 public class Transacction_detail {
 
-    public int getIdTransacction_detail() {
-        return idTransacction_detail;
+    int id_transacction_detail;
+    int transaction_id;
+    double quantity;
+    String description;
+    double unit_price;
+    double iva;
+    double amount;
+    int I_invoice_type;
+
+    public int getId_transacction_detail() {
+        return id_transacction_detail;
     }
 
-    public void setIdTransacction_detail(int idTransacction_detail) {
-        this.idTransacction_detail = idTransacction_detail;
+    public void setId_transacction_detail(int id_transacction_detail) {
+        this.id_transacction_detail = id_transacction_detail;
     }
 
-    public int getFK_Id_Factura() {
-        return FK_Id_Factura;
+    public int getTransaction_id() {
+        return transaction_id;
     }
 
-    public void setFK_Id_Factura(int FK_Id_Factura) {
-        this.FK_Id_Factura = FK_Id_Factura;
+    public void setTransaction_id(int transaction_id) {
+        this.transaction_id = transaction_id;
     }
 
-    public double getTotal_Pago() {
-        return Total_Pago;
+    public double getQuantity() {
+        return quantity;
     }
 
-    public void setTotal_Pago(double Total_Pago) {
-        this.Total_Pago = Total_Pago;
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
-    public double getTotal_Impuestos() {
-        return Total_Impuestos;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTotal_Impuestos(double Total_Impuestos) {
-        this.Total_Impuestos = Total_Impuestos;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getFK_Id_User() {
-        return FK_Id_User;
+    public double getUnit_price() {
+        return unit_price;
     }
 
-    public void setFK_Id_User(int FK_Id_User) {
-        this.FK_Id_User = FK_Id_User;
+    public void setUnit_price(double unit_price) {
+        this.unit_price = unit_price;
     }
-    int idTransacction_detail;
-    int FK_Id_Factura;
-    double Total_Pago;
-    double Total_Impuestos;
-    int FK_Id_User;
+
+    public double getIva() {
+        return iva;
+    }
+
+    public void setIva(double iva) {
+        this.iva = iva;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public int getI_invoice_type() {
+        return I_invoice_type;
+    }
+
+    public void setI_invoice_type(int I_invoice_type) {
+        this.I_invoice_type = I_invoice_type;
+    }
     
+   
 }

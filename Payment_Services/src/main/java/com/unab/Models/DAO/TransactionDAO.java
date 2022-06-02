@@ -10,6 +10,7 @@ import com.unab.Entities.Transaccion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -50,4 +51,23 @@ public class TransactionDAO {
         }
         return TDTF;
     }
-}
+    
+    public void InsertarTransaccion(Transaccion tc){
+    try {
+            CallableStatement cb = connection.prepareCall("{call PS_I_TRANSACTION(?,?,?,?,?,?)}");
+            cb.setInt("PTypeF", tc.getTransaction_type_id() );
+            cb.setInt("PTypeM", tc.getPayment_method_id());
+            cb.setInt("PUser", tc.getUser_id());
+            cb.setInt("PTransactionCod", tc.getTransaction_cod());
+            cb.setString("PCliente", tc.getCliente());
+            cb.setDouble("PAmount", tc.getAmount_transaction());
+            
+            cb.execute();
+            
+            JOptionPane.showMessageDialog(null, "Persona agregada","Mensje sistems",1);
+        } catch (SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error"+ex,"Mensje sistems",1);
+            
+        }}
+    
+    }
