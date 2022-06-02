@@ -36,6 +36,8 @@ public class FrmPago extends javax.swing.JFrame {
         Comboboxs();
         Completardatos();
     }
+    
+    /*----------------------------------------------------------------------------*/
     int ValuememberTF[];
     int ValuememberTP[];
     public void Comboboxs() {
@@ -80,6 +82,8 @@ public class FrmPago extends javax.swing.JFrame {
         }
         cbTipoPago.setModel(DefaultComboBoxModelM);
     }
+    
+    /*----------------------------------------------------------------------------*/
     public void Completardatos() {
         
         double iva = 13;
@@ -100,11 +104,13 @@ public class FrmPago extends javax.swing.JFrame {
         while (iterador.hasNext()) {
             Transaccion T=(Transaccion) iterador.next();
             
-            cod_fact=(T.getTransaction_cod())+1;
+            cod_fact=(T.getIdTransaccion())+1;
             break;
         }
         N_Factura.setText(String.valueOf(cod_fact));
     }
+    
+    /*----------------------------------------------------------------------------*/
     public void bs(int nic) {
         
             
@@ -126,6 +132,8 @@ public class FrmPago extends javax.swing.JFrame {
         }
 
     }
+    
+    /*----------------------------------------------------------------------------*/
     static Transaccion lista;
     public void InsertarTransaccion(){
     Transaccion tc = new Transaccion();
@@ -138,6 +146,9 @@ public class FrmPago extends javax.swing.JFrame {
     tc.setCliente(txtNombre.getText());
     lista = tc;
     }
+    
+    
+    /*----------------------------------------------------------------------------*/
     static ArrayList<Transacction_detail> Transacciond = new ArrayList<Transacction_detail>();
     public void InsertarDetallesT(){
     
@@ -155,6 +166,8 @@ public class FrmPago extends javax.swing.JFrame {
                             Transacciond.add(td);
                          
     }
+    
+    /*----------------------------------------------------------------------------*/
     public void limpiardatos(){
 double iva = 13;
 txtIva.setText(iva + "%");
@@ -167,6 +180,8 @@ txtIva.setText(iva + "%");
     
     
 }
+    
+    /*----------------------------------------------------------------------------*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -433,12 +448,16 @@ txtIva.setText(iva + "%");
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMontoActionPerformed
 
+    /*----------------------------------------------------------------------------*/
+    /*----------------------------------------------------------------------------*/
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         bs(Integer.valueOf(txtNIC.getText()));
 //       
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    /*----------------------------------------------------------------------------*/
+    /*----------------------------------------------------------------------------*/
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         double TotalAPagar=0 ;
@@ -466,10 +485,13 @@ txtIva.setText(iva + "%");
                  
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    /*----------------------------------------------------------------------------*/
+    /*----------------------------------------------------------------------------*/
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
         // TODO add your handling code here:
         NewJFrame fr=new NewJFrame();
         fr.setVisible(true);
+        
 //        
     
     }//GEN-LAST:event_btnPagarActionPerformed

@@ -4,6 +4,7 @@
  */
 package com.unab.Views;
 
+import com.unab.Entities.Tbl_metodo_pago;
 import com.unab.Entities.Transaccion;
 import com.unab.Entities.Transacction_detail;
 import com.unab.Models.DAO.TransactionDAO;
@@ -80,10 +81,10 @@ public class NewJFrame extends javax.swing.JFrame {
     while (iterador.hasNext()) {
             Transaction_DetailDAO tdo = new Transaction_DetailDAO();
             Transacction_detail td = (Transacction_detail) iterador.next();
+            tdl.setI_invoice_type(td.getI_invoice_type());
             tdl.setDescription(td.getDescription());
             tdl.setAmount(td.getAmount());
             tdl.setUnit_price(td.getUnit_price());
-            tdl.setI_invoice_type(td.getI_invoice_type());
             tdl.setTransaction_id(td.getTransaction_id());
             tdl.setIva(td.getIva());
             tdl.setQuantity(td.getQuantity());
