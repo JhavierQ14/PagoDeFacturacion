@@ -261,34 +261,8 @@ public class FrmLogin extends javax.swing.JFrame {
         User user = new User();
         UserDAO userD = new UserDAO();
         FrmMain frmMain = new FrmMain();
+        FrmPago frmP = new FrmPago();
 
-//        user.setUser_name(TxtUserName.getText());
-//        user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
-//        int enc = userD.LogIn(user);
-//
-//        String uName = TxtUserName.getText();
-//        String eMail = TxtUserName.getText();
-//        var userOnline = userD.UserOnLine(uName);
-//
-//        if (enc == 1) {
-//
-//            String u;
-//            for (var it : userOnline) {
-//                
-//                frmMain.userName = it.getUser_name();
-//                u = it.getEmployee_name() + " " + it.getEmployee_lastname();
-//                frmMain.lblUserName.setText(u);
-//
-//            }
-//
-//            frmMain.setVisible(true);
-//            this.dispose();
-//
-//        } else {
-//
-//            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
-//
-//        }
         user.setUser_name(TxtUserName.getText());
         user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
 
@@ -302,7 +276,8 @@ public class FrmLogin extends javax.swing.JFrame {
 
             String u;
             for (var it : userOnline) {
-
+                
+                FrmPago.idUser = it.getId_user();
                 frmMain.idUser = it.getId_user();
                 frmMain.userName = it.getUser_name();
                 frmMain.stateName = it.getUser_state_name();

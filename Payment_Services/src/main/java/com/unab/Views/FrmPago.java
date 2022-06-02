@@ -134,6 +134,7 @@ public class FrmPago extends javax.swing.JFrame {
     }
     
     /*----------------------------------------------------------------------------*/
+    static int idUser;
     static Transaccion lista;
     public void InsertarTransaccion(){
 //        FrmMain frm= new FrmMain();
@@ -143,7 +144,7 @@ public class FrmPago extends javax.swing.JFrame {
     tc.setPayment_method_id(ValuememberTP[cbTipoPago.getSelectedIndex()]);
     tc.setTransaction_cod(Integer.valueOf(N_Factura.getText()));
     tc.setTransaction_type_id(1);
-    tc.setUser_id(1);
+    tc.setUser_id(idUser);
     tc.setCliente(txtNombre.getText());
     lista = tc;
     }

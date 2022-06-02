@@ -246,6 +246,11 @@ public class FrmMain extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Pagar ");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
 
         LblEmpleados.setBackground(new java.awt.Color(34, 45, 49));
         LblEmpleados.setFont(new java.awt.Font("Yu Gothic Light", 0, 18)); // NOI18N
@@ -775,6 +780,12 @@ public class FrmMain extends javax.swing.JFrame {
         cbxUserState.setSelectedItem(state);
         cbxUserRol.setSelectedItem(r);
     }//GEN-LAST:event_tblUserMouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        FrmPago frmP = new FrmPago();
+        frmP.setVisible(true);
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
