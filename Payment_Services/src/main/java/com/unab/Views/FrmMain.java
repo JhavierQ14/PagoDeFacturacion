@@ -4,11 +4,32 @@ import com.unab.Models.ViewModels.*;
 import com.unab.Controllers.*;
 import com.unab.Entities.*;
 
-import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
+import javax.swing.*;
 
 public class FrmMain extends javax.swing.JFrame {
+
+    UserController userC = new UserController();
+    User user = new User();
+    UserVM userVM = new UserVM();
+    RolController rolC = new RolController();
+    Rol rol = new Rol();
+    UserStateController userSC = new UserStateController();
+    UserState userState = new UserState();
+    FrmLogin logIn = new FrmLogin();
+
+    int rolId[];
+    int statusId[];
+
+    int idUserI = 0;
+
+    public static int idUser = 0;
+    public static String userName = null;
+    public static String stateName = null;
+    public static String rolName = null;
+    public static String eName = null;
+    public static String eLastName = null;
 
     public FrmMain() {
         initComponents();
@@ -19,22 +40,8 @@ public class FrmMain extends javax.swing.JFrame {
         LoadCbxUState();
     }
 
-    UserController userC = new UserController();
-    UserVM userVM = new UserVM();
-    RolController rolC = new RolController();
-//    Rol rol;
-    UserStateController userSC = new UserStateController();
-//    UserState userState = new UserState();
-    FrmLogin Cerrar = new FrmLogin();
-    DefaultTableModel dtm;
-   
-    
-   
-    
-    public String userName = null;
-    public String emailU = null;
-
-//  Cargar Imagenes
+    //************************************************************************************************
+    //  Cargar Imagenes
     public void LoadImage() {
 
         LblPagar.setIcon(new ImageIcon("src/main/resources/Images/Pagos.png"));
@@ -44,53 +51,83 @@ public class FrmMain extends javax.swing.JFrame {
         LblCerrarS.setIcon(new ImageIcon("src/main/resources/Images/out24.png"));
     }
 
-// Cargar Tabla Usuarios
+    //**********************************************************************************************
+    // Cargar Tabla Usuarios
     public void LoadTbl() {
 
+        String Title[] = {"Id", "Nombre Usuario", "Contraseña", "Estado", "Rol"};
+        DefaultTableModel dtm = new DefaultTableModel(null, Title);
         var listUser = userC.ReadUser();
-        String row[] = new String[6];
-        dtm = (DefaultTableModel) tblUser.getModel();
+        Iterator it = listUser.iterator();
+        String row[] = new String[5];
 
-        for (var iteration : listUser) {
+//        for (var iteration : listUser) {
+//
+//            row[0] = Integer.toString(iteration.getId_user());
+//            row[1] = iteration.getUser_name();
+//            row[2] = iteration.getPassword();
+//            row[3] = iteration.getUser_state_name();
+//            row[4] = iteration.getRol_name();
+//            dtm.addRow(row);
+//        }
+//        tblUser.setModel(dtm);
+        while (it.hasNext()) {
+            UserVM cttl = (UserVM) it.next();
+            row[0] = Integer.toString(cttl.getId_user());
+            row[1] = cttl.getUser_name();
+            row[2] = cttl.getPassword();
+            row[3] = cttl.getUser_state_name();
+            row[4] = cttl.getRol_name();
 
-            row[0] = iteration.getUser_name();
-            row[1] = iteration.getEmail();
-            row[2] = iteration.getPassword();
-            row[3] = iteration.getPerfil_image();
-            row[4] = iteration.getUser_state_name();
-            row[5] = iteration.getRol_name();
             dtm.addRow(row);
         }
+        tblUser.setModel(dtm);
     }
-    // Cargar Combobox
 
+    //*********************************************************************************************
+    // Cargar Combobox
     public void LoadCbxRol() {
 
-        cbxUserRol.removeAllItems();
-        var lRol = rolC.ReadRol();
-        Iterator iterator = lRol.iterator();
+        ArrayList<Rol> ListOfRol = rolC.ReadRol();
+        Iterator iterator = ListOfRol.iterator();
+        DefaultComboBoxModel defaultCbx = new DefaultComboBoxModel();
+        defaultCbx.removeAllElements();
+        cbxUserRol.removeAll();
+        rolId = new int[ListOfRol.size()];
 
+        int j = 0;
         while (iterator.hasNext()) {
+            Rol rolU;
+            rolU = (Rol) iterator.next();
+            rolId[j] = rolU.getId_rol();
 
-            Rol rol = (Rol) iterator.next();
-            cbxUserRol.addItem(rol.toString());
+            defaultCbx.addElement(rolU.getRol_name());
+            j++;
 
-            
         }
+        cbxUserRol.setModel(defaultCbx);
     }
 
     public void LoadCbxUState() {
 
-        cbxUserState.removeAllItems();
-        var luState = userSC.ReadUserState();
-        Iterator iterator = luState.iterator();
+        ArrayList<UserState> ListOfState = userSC.ReadUserState();
+        Iterator iterator = ListOfState.iterator();
+        DefaultComboBoxModel defaultCbx = new DefaultComboBoxModel();
+        defaultCbx.removeAllElements();
+        cbxUserState.removeAll();
+        statusId = new int[ListOfState.size()];
 
+        int j = 0;
         while (iterator.hasNext()) {
+            UserState stateU;
+            stateU = (UserState) iterator.next();
+            statusId[j] = stateU.getId_user_state();
 
-            UserState userState = (UserState) iterator.next();
-            cbxUserState.addItem(userState.toString());
+            defaultCbx.addElement(stateU.getUser_state_name());
+            j++;
 
         }
+        cbxUserState.setModel(defaultCbx);
 
     }
 
@@ -98,7 +135,6 @@ public class FrmMain extends javax.swing.JFrame {
     public void Clear() {
 
         txtUserName.setText("");
-        txtEmail.setText("");
         txtPassword.setText("");
         cbxUserRol.removeAllItems();
         cbxUserState.removeAllItems();
@@ -161,6 +197,7 @@ public class FrmMain extends javax.swing.JFrame {
         txtFilter = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -508,7 +545,7 @@ public class FrmMain extends javax.swing.JFrame {
                                         .addComponent(cbxUserRol, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(34, 34, 34)
                                         .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))))
+                                        .addGap(0, 10, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -566,6 +603,11 @@ public class FrmMain extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUserMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblUser);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -593,6 +635,13 @@ public class FrmMain extends javax.swing.JFrame {
 
         btnDelete.setText("Eliminar");
 
+        btnAdd.setText("Agregar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -609,9 +658,11 @@ public class FrmMain extends javax.swing.JFrame {
                         .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(46, 46, 46)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addGap(29, 29, 29)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -623,7 +674,8 @@ public class FrmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -653,7 +705,7 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void LblCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblCerrarSesionMouseClicked
 
-        Cerrar.setVisible(true);
+        logIn.setVisible(true);
 
         this.dispose();
     }//GEN-LAST:event_LblCerrarSesionMouseClicked
@@ -665,29 +717,64 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-//        int id_Rol;
-//        Rol rol=(Rol) cbxUserRol.getSelectedItem();
-//        id_Rol=rol.getId_rol();
-//        
-//          int iduser_state;
-//          UserState state =(UserState)  cbxUserState.getSelectedItem();
-//          iduser_state = state.getId_user_state();
-//    
-        
-        User user= new User();
-        UserController controller = new UserController();
-        user.setRol_id(/*id_Rol*/1);
-        user.setUser_state_id(/*iduser_state */1);
-        user.setUser_name(txtUserName.getText());
-        user.setEmail(txtEmail.getText());
-        user.setPassword(String.valueOf(txtPassword.getPassword()));
-        
-        controller.CreateUser(user);
-        
-        Clear();
-        
-        
+
+        try {
+            int id_Rol = rolId[cbxUserRol.getSelectedIndex()];
+            int iduser_state = statusId[cbxUserState.getSelectedIndex()];
+
+            user.setRol_id(id_Rol);
+            user.setUser_state_id(iduser_state);
+            user.setUser_name(txtUserName.getText());
+            user.setId_user(idUser);
+
+            userC.UpdateUser(user);
+            LoadTbl();
+            Clear();
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Error btnUpdateActionPerformed() " + e.toString());
+        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            int id_Rol = rolId[cbxUserRol.getSelectedIndex()];
+            int iduser_state = statusId[cbxUserState.getSelectedIndex()];
+
+            user.setRol_id(id_Rol);
+            user.setUser_state_id(iduser_state);
+            user.setUser_name(txtUserName.getText());
+            user.setPassword(String.valueOf(txtPassword.getPassword()));
+
+            userC.CreateUser(user);
+            LoadTbl();
+            Clear();
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Error btnAddActionPerformed() " + e.toString());
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
+        // TODO add your handling code here:
+
+        int row = tblUser.getSelectedRow();
+
+        String idU = tblUser.getValueAt(row, 0).toString();
+        String userName = tblUser.getValueAt(row, 1).toString();
+        String state = tblUser.getValueAt(row, 2).toString();
+        String r = tblUser.getValueAt(row, 3).toString();
+
+        idUserI = Integer.valueOf(idU);
+        txtUserName.setText(userName);
+        cbxUserState.setSelectedItem(state);
+        cbxUserRol.setSelectedItem(r);
+    }//GEN-LAST:event_tblUserMouseClicked
 
     /**
      * @param args the command line arguments
@@ -733,6 +820,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JLabel LblPagar2;
     private javax.swing.JLabel LblReportes;
     private javax.swing.JLabel LblUsuario;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddImgPerfil;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;

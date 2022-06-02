@@ -5,6 +5,7 @@
 package com.unab.Views;
 
 //import com.unab.Views.Menu.FrmP;
+import com.unab.Controllers.UserController;
 import com.unab.Entities.User;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -254,27 +255,60 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void LblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblNextMouseClicked
         //FrmP menu = new FrmP();
-
+        
+        UserController userC = new UserController();
         Encryption seguridad = new Encryption();
         User user = new User();
         UserDAO userD = new UserDAO();
         FrmMain frmMain = new FrmMain();
 
+//        user.setUser_name(TxtUserName.getText());
+//        user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
+//        int enc = userD.LogIn(user);
+//
+//        String uName = TxtUserName.getText();
+//        String eMail = TxtUserName.getText();
+//        var userOnline = userD.UserOnLine(uName);
+//
+//        if (enc == 1) {
+//
+//            String u;
+//            for (var it : userOnline) {
+//                
+//                frmMain.userName = it.getUser_name();
+//                u = it.getEmployee_name() + " " + it.getEmployee_lastname();
+//                frmMain.lblUserName.setText(u);
+//
+//            }
+//
+//            frmMain.setVisible(true);
+//            this.dispose();
+//
+//        } else {
+//
+//            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+//
+//        }
         user.setUser_name(TxtUserName.getText());
-        user.setEmail(TxtUserName.getText());
         user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
-        int enc = userD.LogIn(user);
+
+        int enc = userC.LogIn(user);
 
         String uName = TxtUserName.getText();
-        String eMail = TxtUserName.getText();
-        var userOnline = userD.UserOnLine(uName, eMail);
+
+        var userOnline = userC.UserOnLine(uName);
 
         if (enc == 1) {
 
             String u;
             for (var it : userOnline) {
-                
+
+                frmMain.idUser = it.getId_user();
                 frmMain.userName = it.getUser_name();
+                frmMain.stateName = it.getUser_state_name();
+                frmMain.rolName = it.getRol_name();
+                frmMain.rolName = it.getEmployee_name();
+                frmMain.rolName = it.getEmployee_lastname();
                 u = it.getEmployee_name() + " " + it.getEmployee_lastname();
                 frmMain.lblUserName.setText(u);
 
