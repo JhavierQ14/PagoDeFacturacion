@@ -17,6 +17,8 @@ public class UserDAO {
     public int LogIn(User user) {
 
         int confirmation = 0;
+        boolean response = false;
+        String status = null;
         String query = "{call pago_de_facturacion_db.SP_VALIDATION_USER(?,?)}";
 
         try {
@@ -26,16 +28,26 @@ public class UserDAO {
             qry.setString("Ppass", user.getPassword());
 
             ResultSet rs = qry.executeQuery();
+
             if (rs.next()) {
 
-                confirmation = 1;
-                return confirmation;
+                status = rs.getString("user_state_name");
+
+                if ("activo".equals(status)) {
+
+                    confirmation = 1;
+                    return confirmation;
+
+                } else {
+
+                    confirmation = 2;
+                    return confirmation;
+                }
             }
 
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, "Error LogIn " + e.toString());
-
         }
 
         return confirmation;
@@ -59,11 +71,13 @@ public class UserDAO {
 
                 UserOnLineVM userLine = new UserOnLineVM();
                 userLine.setId_user(rs.getInt("id_user"));
+                userLine.setUser_state_name(rs.getString("user_state_name"));
+                userLine.setRol_name(rs.getString("rol_name"));
                 userLine.setUser_name(rs.getString("user_name"));
                 userLine.setEmployee_name(rs.getString("employee_name"));
                 userLine.setEmployee_lastname(rs.getString("employee_lastname"));
                 data.add(userLine);
-            }          
+            }
 
         } catch (Exception e) {
 
@@ -74,7 +88,7 @@ public class UserDAO {
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /*Crear Usuario*/
+ /*Crear Usuario*/
     public void CreateUser(User user) {
 
         String query = "{call pago_de_facturacion_db.SP_C_USER(?,?,?,?)}";
@@ -96,7 +110,7 @@ public class UserDAO {
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /* Mostrar usuario*/
+ /* Mostrar usuario*/
     public ArrayList<UserVM> ReadUser() {
 
         ArrayList<UserVM> arrUser = new ArrayList<UserVM>();
@@ -110,7 +124,7 @@ public class UserDAO {
             while (rs.next()) {
 
                 UserVM userVM = new UserVM();
-                
+
                 userVM.setId_user(rs.getInt("id_user"));
                 userVM.setUser_name(rs.getString("user_name"));
                 userVM.setPassword(rs.getString("password"));
@@ -129,7 +143,7 @@ public class UserDAO {
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /* Actualizar usuario*/
+ /* Actualizar usuario*/
     public void UpdateUser(User user) {
 
         String query = "{call pago_de_facturacion_db.SP_U_USER(?,?,?,?)}";
@@ -152,7 +166,7 @@ public class UserDAO {
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
-    /* Borrado logico*/
+ /* Borrado logico*/
     public void DeleteUser(User user) {
 
         String query = "call pago_de_facturacion_db.SP_D_USER(?)";

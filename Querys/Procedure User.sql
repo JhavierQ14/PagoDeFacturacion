@@ -25,7 +25,9 @@ CREATE PROCEDURE SP_D_USER(p_id_user int)
 
 /*X VALIDATION USER*/
 CREATE PROCEDURE SP_VALIDATION_USER(PUsername varchar(64), Ppass varchar(256))
-	Select *from  user where user_name = PUsername and password = Ppass;
+Select user.user_name, user_state.user_state_name from user
+	inner join user_state on user.User_State_id = user_state.id_User_State
+where user.user_name = PUsername and user.password = Ppass;
     
 /*USER ONLINE*/
 CREATE PROCEDURE SP_ONLINE_USER(PUsername varchar(64))

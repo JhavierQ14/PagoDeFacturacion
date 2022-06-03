@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.unab.Views;
 
-//import com.unab.Views.Menu.FrmP;
 import com.unab.Controllers.UserController;
 import com.unab.Entities.User;
 import java.awt.MouseInfo;
@@ -255,7 +250,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void LblNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblNextMouseClicked
         //FrmP menu = new FrmP();
-        
+
         UserController userC = new UserController();
         Encryption seguridad = new Encryption();
         User user = new User();
@@ -263,42 +258,50 @@ public class FrmLogin extends javax.swing.JFrame {
         FrmMain frmMain = new FrmMain();
         FrmPago frmP = new FrmPago();
 
-        user.setUser_name(TxtUserName.getText());
-        user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
+        try {
 
-        int enc = userC.LogIn(user);
+            user.setUser_name(TxtUserName.getText());
+            user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
 
-        String uName = TxtUserName.getText();
+            int enc = userC.LogIn(user);
 
-        var userOnline = userC.UserOnLine(uName);
+            String uName = TxtUserName.getText();
 
-        if (enc == 1) {
+            var userOnline = userC.UserOnLine(uName);
 
-            String u;
-            for (var it : userOnline) {
-                
-                FrmPago.idUser = it.getId_user();
-                frmMain.idUser = it.getId_user();
-                frmMain.userName = it.getUser_name();
-                frmMain.stateName = it.getUser_state_name();
-                frmMain.rolName = it.getRol_name();
-                frmMain.rolName = it.getEmployee_name();
-                frmMain.rolName = it.getEmployee_lastname();
-                u = it.getEmployee_name() + " " + it.getEmployee_lastname();
-                frmMain.lblUserName.setText(u);
+            if (enc == 1) {
+
+                String userOnL;
+                for (var it : userOnline) {
+
+                    FrmPago.idUser = it.getId_user();
+                    FrmMain.idUser = it.getId_user();
+                    FrmMain.userName = it.getUser_name();
+                    FrmMain.stateName = it.getUser_state_name();
+                    FrmMain.rolName = it.getRol_name();
+                    FrmMain.eName = it.getEmployee_name();
+                    FrmMain.eLastName = it.getEmployee_lastname();
+                    userOnL = it.getEmployee_name() + " " + it.getEmployee_lastname();
+                    frmMain.lblUserName.setText(userOnL);
+
+                }
+
+                frmMain.setVisible(true);
+                this.dispose();
+
+            } else if (enc == 2) {
+
+                JOptionPane.showMessageDialog(null, "El usuario no tiene permitido acceso al sistema");
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
 
             }
+        } catch (Exception e) {
 
-            frmMain.setVisible(true);
-            this.dispose();
-
-        } else {
-
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
-
+            JOptionPane.showMessageDialog(null, "Error en LblNextMouseClicked() " + e.toString());
         }
-
-
     }//GEN-LAST:event_LblNextMouseClicked
 
     /**

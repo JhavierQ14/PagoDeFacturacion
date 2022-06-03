@@ -32,3 +32,6 @@ inner join user on employee.user_id = user.id_User where user.User_Name = 'admin
     
 select * from pago_de_facturacion_db.rol;
 
+Select user.user_name, user_state.user_state_name from user
+	inner join user_state on user.User_State_id = user_state.id_User_State
+where user.user_name = 'admin1' and user.password = '21232f297a57a5a743894a0e4a801fc3';
