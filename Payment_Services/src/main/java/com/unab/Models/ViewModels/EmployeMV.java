@@ -1,7 +1,22 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.unab.Models.ViewModels;
 
-package com.unab.Entities;
-
-public class Employee {
+/**
+ *
+ * @author nelso
+ */
+public class EmployeMV {
+    int idEmployee;
+    int user_id;
+    String Employee_name;
+    String Employee_Lastname;
+    String e_identification_document;
+    String Phone;
+    String email_adrdess;
+    String user_name;
 
     public int getIdEmployee() {
         return idEmployee;
@@ -58,13 +73,13 @@ public class Employee {
     public void setEmail_adrdess(String email_adrdess) {
         this.email_adrdess = email_adrdess;
     }
-    int idEmployee;
-    int user_id;
-    String Employee_name;
-    String Employee_Lastname;
-    String e_identification_document;
-    String Phone;
-    String email_adrdess;
-    
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
     
 }
