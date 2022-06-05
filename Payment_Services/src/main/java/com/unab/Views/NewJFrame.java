@@ -78,22 +78,24 @@ public class NewJFrame extends javax.swing.JFrame {
 
     
     public void Guardardetalles(){
-    
-    Iterator iterador = Transacciond.iterator();
-    Transacction_detail tdl = new Transacction_detail();
-    while (iterador.hasNext()) {
-            Transaction_DetailDAO tdo = new Transaction_DetailDAO();
-            Transacction_detail td = (Transacction_detail) iterador.next();
-            tdl.setI_invoice_type(td.getI_invoice_type());
-            tdl.setDescription(td.getDescription());
-            tdl.setAmount(td.getAmount());
-            tdl.setUnit_price(td.getUnit_price());
-            tdl.setTransaction_id(td.getTransaction_id());
-            tdl.setIva(td.getIva());
-            tdl.setQuantity(td.getQuantity());
-            tdo.InsertarTransaccionD(tdl);
-        }
-    
+    FrmPago frm = new FrmPago();
+    frm.guardardatos();
+    frm.eliminarf();
+//    Iterator iterador = Transacciond.iterator();
+//    Transacction_detail tdl = new Transacction_detail();
+//    while (iterador.hasNext()) {
+//            Transaction_DetailDAO tdo = new Transaction_DetailDAO();
+//            Transacction_detail td = (Transacction_detail) iterador.next();
+//            tdl.setI_invoice_type(td.getI_invoice_type());
+//            tdl.setDescription(td.getDescription());
+//            tdl.setAmount(td.getAmount());
+//            tdl.setUnit_price(td.getUnit_price());
+//            tdl.setTransaction_id(td.getTransaction_id());
+//            tdl.setIva(td.getIva());
+//            tdl.setQuantity(td.getQuantity());
+//            tdo.InsertarTransaccionD(tdl);
+//        }
+//    
     }
     /**
      * @param args the command line arguments

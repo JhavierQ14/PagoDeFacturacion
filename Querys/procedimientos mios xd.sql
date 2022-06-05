@@ -39,3 +39,7 @@ select *  from transaction order by id_transaction desc limit 1;
 END
 
 -----------------------------------------------------------------------
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PS_D_FACTURA`(PNIC int, PTDF int)
+BEGIN
+Delete from factura_datos where NIC = PNIC and Id_invoice = PTDF  limit 4;
+END

@@ -12,13 +12,16 @@ import com.unab.Entities.Transacction_detail;
 import com.unab.Models.DAO.FacturaDAO;
 import com.unab.Models.DAO.TipoFDAO;
 import com.unab.Models.DAO.TransactionDAO;
+import com.unab.Models.DAO.Transaction_DetailDAO;
 import com.unab.Models.DAO.payment_methodDAO;
+import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.function.ToDoubleFunction;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
-
 
 /**
  *
@@ -31,15 +34,16 @@ public class FrmPago extends javax.swing.JFrame {
      */
     public FrmPago() {
         initComponents();
-       txtMonto.setText("0");
+        txtMonto.setText("0");
         limpiardatos();
         Comboboxs();
         Completardatos();
     }
-    
+
     /*----------------------------------------------------------------------------*/
     int ValuememberTF[];
     int ValuememberTP[];
+
     public void Comboboxs() {
         TipoFDAO tfd = new TipoFDAO();
         ArrayList<Invoce_Type> listadoF = tfd.ListarTiposFactura();
@@ -48,142 +52,174 @@ public class FrmPago extends javax.swing.JFrame {
         DefaultComboBoxModelF.removeAllElements();
         cbTipoFactura.removeAll();
         String filasF[] = new String[2];
-        
+
         ValuememberTF = new int[listadoF.size()];
-        
-        int contadorF=0;
+
+        int contadorF = 0;
         while (iteradorF.hasNext()) {
             Invoce_Type InvoiceCls;
             InvoiceCls = (Invoce_Type) iteradorF.next();
-            ValuememberTF [contadorF]= InvoiceCls.getId_invoice();
+            ValuememberTF[contadorF] = InvoiceCls.getId_invoice();
             DefaultComboBoxModelF.addElement(InvoiceCls.getI_type_name());
             contadorF++;
         }
         cbTipoFactura.setModel(DefaultComboBoxModelF);
-        
+
         ////////////////////////////////////////////////////////////////////////
-        payment_methodDAO pd= new payment_methodDAO();
+        payment_methodDAO pd = new payment_methodDAO();
         ArrayList<Tbl_metodo_pago> listadoM = pd.ListarMetodos();
         Iterator iteradorM = listadoM.iterator();
         DefaultComboBoxModel DefaultComboBoxModelM = new DefaultComboBoxModel();
         DefaultComboBoxModelM.removeAllElements();
         cbTipoPago.removeAll();
         String filasM[] = new String[2];
-        
+
         ValuememberTP = new int[listadoM.size()];
-        
-        int contadorM=0;
+
+        int contadorM = 0;
         while (iteradorM.hasNext()) {
             Tbl_metodo_pago metodop;
             metodop = (Tbl_metodo_pago) iteradorM.next();
-            ValuememberTP [contadorM]= metodop.getIdTbl_Metodo_pago();
+            ValuememberTP[contadorM] = metodop.getIdTbl_Metodo_pago();
             DefaultComboBoxModelM.addElement(metodop.getTipo_Pago());
             contadorM++;
         }
         cbTipoPago.setModel(DefaultComboBoxModelM);
     }
-    
+
     /*----------------------------------------------------------------------------*/
     public void Completardatos() {
-        
+        DecimalFormat df = new DecimalFormat("###.##");
         double iva = 13;
-        double Tpagar = Double.valueOf(txtMonto.getText()) + (Double.valueOf(txtMonto.getText()) * (iva / 100));
-       
+        String Tpagar = df.format(Double.valueOf(txtMonto.getText()) + (Double.valueOf(txtMonto.getText()) * (iva / 100)));
+
         String tpagart = String.valueOf(Tpagar);
         txtIva.setText(iva + "%");
         txtTotalPagar.setText(tpagart);
-        
-        
-        
+
         TransactionDAO TD = new TransactionDAO();
         ArrayList listaT = TD.Listartransacciones();
         Iterator iterador = listaT.iterator();
-        
-        
-        int cod_fact=0;
+
+        int cod_fact = 0;
         while (iterador.hasNext()) {
-            Transaccion T=(Transaccion) iterador.next();
-            
-            cod_fact=(T.getIdTransaccion())+1;
+            Transaccion T = (Transaccion) iterador.next();
+
+            cod_fact = (T.getIdTransaccion()) + 1;
             break;
         }
         N_Factura.setText(String.valueOf(cod_fact));
     }
-    
+
     /*----------------------------------------------------------------------------*/
     public void bs(int nic) {
-        
-            
+
         int tdf = ValuememberTF[cbTipoFactura.getSelectedIndex()];
-        
 
         FacturaDAO FDAO = new FacturaDAO();
-        ArrayList<Factura_Datos> listado = FDAO.BuscarF(nic,tdf);
+        ArrayList<Factura_Datos> listado = FDAO.BuscarF(nic, tdf);
         Iterator iterador = listado.iterator();
-        double suma = 0;
-        int canfact = 0;
-        while (iterador.hasNext()) {
-            Factura_Datos dts = (Factura_Datos) iterador.next();
-            canfact = canfact + 1;
-            suma = suma + dts.getDeuda();
-            txtMonto.setText(String.valueOf(suma));
-            txtPagosPendientes.setText(String.valueOf(canfact));
-            Completardatos();
+        if (listado.size() != 0) {
+            double suma = 0;
+            int canfact = 0;
+            while (iterador.hasNext()) {
+                Factura_Datos dts = (Factura_Datos) iterador.next();
+                canfact = canfact + 1;
+                suma = suma + dts.getDeuda();
+                txtMonto.setText(String.valueOf(suma));
+                txtPagosPendientes.setText(String.valueOf(canfact));
+                Completardatos();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Factura no encontrada", "ERROR", 1);
         }
 
     }
-    
+
     /*----------------------------------------------------------------------------*/
     static int idUser;
     static Transaccion lista;
-    public void InsertarTransaccion(){
+
+    public void InsertarTransaccion() {
 //        FrmMain frm= new FrmMain();
-    Transaccion tc = new Transaccion();
-    
-    tc.setAmount_transaction(Double.valueOf(txtTAPagar.getText()));
-    tc.setPayment_method_id(ValuememberTP[cbTipoPago.getSelectedIndex()]);
-    tc.setTransaction_cod(Integer.valueOf(N_Factura.getText()));
-    tc.setTransaction_type_id(1);
-    tc.setUser_id(idUser);
-    tc.setCliente(txtNombre.getText());
-    lista = tc;
+        Transaccion tc = new Transaccion();
+
+        tc.setAmount_transaction(Double.valueOf(txtTAPagar.getText()));
+        tc.setPayment_method_id(ValuememberTP[cbTipoPago.getSelectedIndex()]);
+        tc.setTransaction_cod(Integer.valueOf(N_Factura.getText()));
+        tc.setTransaction_type_id(1);
+        tc.setUser_id(idUser);
+        tc.setCliente(txtNombre.getText());
+        lista = tc;
     }
-    
-    
+
     /*----------------------------------------------------------------------------*/
     static ArrayList<Transacction_detail> Transacciond = new ArrayList<Transacction_detail>();
-    public void InsertarDetallesT(){
-    
-                            Transacction_detail td = new Transacction_detail();
-                            td.setTransaction_id(Integer.valueOf(N_Factura.getText()));
-                            td.setI_invoice_type(ValuememberTF[cbTipoFactura.getSelectedIndex()]);
-                            String iva =txtIva.getText();
-                            iva=iva.replace("%", "");
-                            td.setIva(Double.valueOf(iva));
-                            td.setQuantity(Integer.valueOf(txtPagosPendientes.getText()));
-                            td.setUnit_price(Double.valueOf(txtMonto.getText())); 
-                            td.setAmount(Double.valueOf(txtTotalPagar.getText()));
-                            td.setDescription("Se realizo un pago de la factura con NIC: "+txtNIC.getText()+",De una deuda de "+txtMonto.getText());
-                            
-                            Transacciond.add(td);
-                         
+
+    public void InsertarDetallesT() {
+        Factura_Datos fd = new Factura_Datos();
+        Transacction_detail td = new Transacction_detail();
+        td.setTransaction_id(Integer.valueOf(N_Factura.getText()));
+        td.setI_invoice_type(ValuememberTF[cbTipoFactura.getSelectedIndex()]);
+        String iva = txtIva.getText();
+        iva = iva.replace("%", "");
+        td.setIva(Double.valueOf(iva));
+        td.setQuantity(Integer.valueOf(txtPagosPendientes.getText()));
+        td.setUnit_price(Double.valueOf(txtMonto.getText()));
+        td.setAmount(Double.valueOf(txtTotalPagar.getText()));
+        td.setDescription("Se realizo un pago de la factura con NIC: " + txtNIC.getText() + ",De una deuda de " + txtMonto.getText());
+        fd.setNIC(Integer.valueOf(txtNIC.getText()));
+        fd.setId_Invoice(ValuememberTF[cbTipoFactura.getSelectedIndex()]);
+        NIC_TPF.add(fd);
+        Transacciond.add(td);
+
     }
-    
+
     /*----------------------------------------------------------------------------*/
-    public void limpiardatos(){
-double iva = 13;
-txtIva.setText(iva + "%");
-    txtMonto.setText("0");
-    txtNIC.setText("");
-    txtNombre.setText("");
-    txtPagosPendientes.setText("0");
-    txtTotalPagar.setText("0");
-    
-    
-    
-}
-    
+    public void limpiardatos() {
+        double iva = 13;
+        txtIva.setText(iva + "%");
+        txtMonto.setText("0");
+        txtNIC.setText("");
+        txtNombre.setText("");
+        txtPagosPendientes.setText("0");
+        txtTotalPagar.setText("0");
+
+    }
+
     /*----------------------------------------------------------------------------*/
+    static ArrayList<Factura_Datos> NIC_TPF = new ArrayList<Factura_Datos>();
+
+    public void eliminarf() {
+        FacturaDAO fd = new FacturaDAO();
+        Iterator it = NIC_TPF.iterator();
+        while (it.hasNext()) {
+            Factura_Datos f = (Factura_Datos) it.next();
+            System.out.println(f.getId_Invoice());
+            System.out.println(f.getNIC());
+            fd.EliminarFacturas(f.getNIC(), f.getId_Invoice());
+        }
+        limpiartabla();
+    }
+
+    /*-----------------------------------------------------------------------------*/
+    public void guardardatos() {
+        Iterator iterador = Transacciond.iterator();
+        Transacction_detail tdl = new Transacction_detail();
+        while (iterador.hasNext()) {
+            Transaction_DetailDAO tdo = new Transaction_DetailDAO();
+            Transacction_detail td = (Transacction_detail) iterador.next();
+            tdl.setI_invoice_type(td.getI_invoice_type());
+            tdl.setDescription(td.getDescription());
+            tdl.setAmount(td.getAmount());
+            tdl.setUnit_price(td.getUnit_price());
+            tdl.setTransaction_id(td.getTransaction_id());
+            tdl.setIva(td.getIva());
+            tdl.setQuantity(td.getQuantity());
+            tdo.InsertarTransaccionD(tdl);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -222,7 +258,7 @@ txtIva.setText(iva + "%");
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         N_Factura.setEditable(false);
 
@@ -263,10 +299,24 @@ txtIva.setText(iva + "%");
 
             },
             new String [] {
-                "CLIENTE", "NIC", "PAGO SIN IVA", "Title 4"
+                "CLIENTE", "NIC", "PAGO SIN IVA", "PAGO CON IVA", "FACTURA DE "
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblFacturas);
+
+        txtNIC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNICKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("NIC");
 
@@ -305,6 +355,11 @@ txtIva.setText(iva + "%");
 
         txtPagaCon.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         txtPagaCon.setText("0.0");
+        txtPagaCon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPagaConKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("TOTAL");
 
@@ -419,9 +474,9 @@ txtIva.setText(iva + "%");
                     .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar))
-                .addGap(34, 34, 34)
+                .addGap(52, 52, 52)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel9)
@@ -451,56 +506,155 @@ txtIva.setText(iva + "%");
     }//GEN-LAST:event_txtMontoActionPerformed
 
     /*----------------------------------------------------------------------------*/
-    /*----------------------------------------------------------------------------*/
+ /*----------------------------------------------------------------------------*/
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        bs(Integer.valueOf(txtNIC.getText()));
+        if (txtNIC.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese un NIC", "ERROR", 1);
+        } else {
+
+            double iva = 13;
+            txtIva.setText(iva + "%");
+            txtMonto.setText("0");
+            txtPagosPendientes.setText("0");
+            txtTotalPagar.setText("0");
+            bs(Integer.valueOf(txtNIC.getText()));
 //       
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     /*----------------------------------------------------------------------------*/
+    public void limpiartabla() {
+
+        DefaultTableModel tb = (DefaultTableModel) tblFacturas.getModel();
+        tb.removeRow(0);
+    }
+
+    /*----------------------------------------------------------------------------*/
+    public boolean comprobartabla() {
+
+//        for (int i = 0; i < tblFacturas.getRowCount(); i++) {
+//            String NIC = (String) tblFacturas.getValueAt(i, 1);
+//            System.out.println(txtNIC.getText());
+//            String TDF = (String) tblFacturas.getValueAt(i, 4);
+//            System.out.println(cbTipoFactura.getSelectedItem());
+////            if (NIC == txtNIC.getText() && TDF == cbTipoFactura.getSelectedItem()) {
+////                existe = true;
+////                if(existe==true){
+////                break;
+////                }
+////            }
+//
+//        }
+        boolean existe = false;
+
+        Iterator it = NIC_TPF.iterator();
+        while (it.hasNext()) {
+            Factura_Datos f = (Factura_Datos) it.next();
+            if (f.getNIC() == Integer.valueOf(txtNIC.getText()) && f.getId_Invoice() == ValuememberTF[cbTipoFactura.getSelectedIndex()]) {
+                existe = true;
+            }
+
+        }
+
+        return existe;
+    }
+
     /*----------------------------------------------------------------------------*/
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        double TotalAPagar=0 ;
-        
-        DefaultTableModel df = (DefaultTableModel) tblFacturas.getModel();
-        String fila[]= new String[4];
-                
-                fila[0]= txtNombre.getText();
-                fila[1]= txtNIC.getText();
-                fila[2]= txtMonto.getText();
-                fila[3]= txtTotalPagar.getText();
-                
-                df.addRow(fila);
-                
-                tblFacturas.setModel(df);
-                
-                 for (int i = 0; i < tblFacturas.getRowCount(); i++) {
-                            String tapg= (String)tblFacturas.getValueAt(i,3);
-                            TotalAPagar=TotalAPagar+(Double.valueOf(tapg));
-                         }
-                 txtTAPagar.setText(String.valueOf(TotalAPagar));
-                 InsertarTransaccion();
-                 InsertarDetallesT();
-                 limpiardatos();
-                 
+          
+        if (!txtNombre.getText().isBlank()) {
+            if (Integer.valueOf(txtPagosPendientes.getText()) != 0) {
+                if (comprobartabla() == false) {
+                    double TotalAPagar = 0;
+
+                    DefaultTableModel df = (DefaultTableModel) tblFacturas.getModel();
+                    String fila[] = new String[5];
+
+                    fila[0] = txtNombre.getText();
+                    fila[1] = txtNIC.getText();
+                    fila[2] = txtMonto.getText();
+                    fila[3] = txtTotalPagar.getText();
+                    fila[4] = String.valueOf(cbTipoFactura.getSelectedItem());
+
+                    df.addRow(fila);
+
+                    tblFacturas.setModel(df);
+                   
+                    for (int i = 0; i < tblFacturas.getRowCount(); i++) {
+                        
+                        String tapg = (String) tblFacturas.getValueAt(i, 3);
+                        TotalAPagar = TotalAPagar + (Double.valueOf(tapg));
+
+                    }
+                    DecimalFormat dft = new DecimalFormat("###.##");
+                    txtTAPagar.setText(dft.format(TotalAPagar));
+                    InsertarTransaccion();
+                    InsertarDetallesT();
+                    limpiardatos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Factura ya agregada", "ERROR", 1);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Campos Vacios", "ERROR", 1);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Es necesario un nombre para agregar", "ERROR", 1);
+        }
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     /*----------------------------------------------------------------------------*/
-    /*----------------------------------------------------------------------------*/
+ /*----------------------------------------------------------------------------*/
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
         // TODO add your handling code here:
-        NewJFrame fr=new NewJFrame();
-        fr.setVisible(true);
-        this.dispose();
-        
+
+        if (NIC_TPF.size() != 0) {
+            if (ValuememberTP[cbTipoPago.getSelectedIndex()] == 1) {
+                TransactionDAO td = new TransactionDAO();
+                td.InsertarTransaccion(lista);
+                guardardatos();
+                eliminarf();
+                Completardatos();
+                
+            } else {
+                NewJFrame fr = new NewJFrame();
+                fr.setVisible(true);
+                this.dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se esta facturando nada", "ERROR", 1);
+
 //        
-    
+        }
     }//GEN-LAST:event_btnPagarActionPerformed
-    
-   
-    
+
+    private void txtPagaConKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagaConKeyPressed
+//         TODO add your handling code here:
+        DecimalFormat df = new DecimalFormat("###.##");
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String cambio = df.format(Double.valueOf(txtPagaCon.getText()) - Double.valueOf(txtTAPagar.getText()));
+            txtCambio.setText(cambio);
+        }
+    }//GEN-LAST:event_txtPagaConKeyPressed
+
+    private void txtNICKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNICKeyTyped
+        // TODO add your handling code here:
+        int k = (int) evt.getKeyChar();
+        if (k >= 97 && k <= 122 || k >= 65 && k <= 90) {
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
+            JOptionPane.showMessageDialog(null, "No puede ingresar letras!!!", "Ventana Error Datos", JOptionPane.ERROR_MESSAGE);
+        }
+        if (k == 241 || k == 209) {
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
+            JOptionPane.showMessageDialog(null, "No puede ingresar letras!!!", "Ventana Error Datos", JOptionPane.ERROR_MESSAGE);
+        }
+        if (k == 10) {
+            txtNIC.transferFocus();
+        }
+    }//GEN-LAST:event_txtNICKeyTyped
+
     /**
      * @param args the command line arguments
      */

@@ -47,4 +47,20 @@ public class FacturaDAO {
         }
         return DTF;
 }
+    
+    public void EliminarFacturas(int NIC, int TDF){
+    
+     try {
+            CallableStatement qry = connection.prepareCall("{call pago_de_facturacion_db.PS_D_FACTURA(?,?)}");
+            qry.setInt("PNIC", NIC);
+            qry.setInt("PTDF", TDF);
+            
+            qry.execute();
+             
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Error " + e.toString());
+            
+        }
+    }
 }
