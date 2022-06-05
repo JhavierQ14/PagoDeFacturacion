@@ -35,3 +35,17 @@ select * from pago_de_facturacion_db.rol;
 Select user.user_name, user_state.user_state_name from user
 	inner join user_state on user.User_State_id = user_state.id_User_State
 where user.user_name = 'admin1' and user.password = '21232f297a57a5a743894a0e4a801fc3';
+
+update pago_de_facturacion_db.user set Password= md5('1234') where id_user = p_id_user;
+
+select * from user;
+
+
+
+
+
+
+
+
+
+

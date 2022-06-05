@@ -23,32 +23,37 @@ public class FrmMain extends javax.swing.JFrame {
     FrmLogin logIn = new FrmLogin();
     DefaultTableModel dtm;
     TableRowSorter trs;
-    
+
     // matrices para capturar id de los cbx
     int rolId[];
     int statusId[];
-    
+
     // variable para capturar id y actualizar o eliminar
     int idUserI = 0;
-    
-    //variables de session del usuario
-    public static int idUser = 0;
-    public static String userName = null;
-    public static String stateName = null;
-    public static String rolName = null;
-    public static String eName = null;
-    public static String eLastName = null;
 
-    public FrmMain() {
+    //variables de session del usuario
+    static int idUser;
+//    static String userName;
+//    static String stateName;
+    static String rolName;
+    static String eName;
+//    static String eLastName;
+
+    public FrmMain(String emple, String rolname) {
+
         initComponents();
 
-        LoadImage();
+        this.eName = emple;
+        this.rolName = rolname;
+
+        RolSecurity();
+        lblUserName.setText(eName);
+
         LoadTbl();
         LoadCbxRol();
         LoadCbxUState();
     }
-    
-     
+
     //************************************************************************************************
     //  Cargar Imagenes
     public void LoadImage() {
@@ -58,6 +63,33 @@ public class FrmMain extends javax.swing.JFrame {
 //        LblEmpleados.setIcon(new ImageIcon("src/main/resources/Images/empleados.png"));
 //        LblReportes.setIcon(new ImageIcon("src/main/resources/Images/reportes.png"));
 //        LblCerrarS.setIcon(new ImageIcon("src/main/resources/Images/out24.png"));
+    }
+
+    //**********************************************************************************************
+    // Seguridad con roles
+    public void RolSecurity() {
+
+        switch (rolName) {
+
+            case "administrador" -> {
+                BtnPagar1.setEnabled(true);
+                BtnReportes1.setEnabled(true);
+                BtnEmpleados.setEnabled(true);
+                BtnUsuarios.setEnabled(true);
+            }
+
+            case "vendedor" ->
+                BtnPagar1.setEnabled(true);
+
+            default -> {
+                BtnPagar1.setEnabled(false);
+                BtnReportes1.setEnabled(false);
+                BtnEmpleados.setEnabled(false);
+                BtnUsuarios.setEnabled(false);
+            }
+
+        }
+
     }
 
     //**********************************************************************************************
@@ -82,28 +114,26 @@ public class FrmMain extends javax.swing.JFrame {
         }
         tblUser.setModel(dtm);
     }
-    
+
     //*********************************************************************************************
     // Filtrar Usuarios
-    
-    public void FilterUser(){
-       
-//        trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtFilter.getText(), 1));
+    public void FilterUser() {
 
+//        trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtFilter.getText(), 1));
         txtFilter.addKeyListener(new KeyAdapter() {
-            
-            public void keyReleased(final KeyEvent ke){
-                
-                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtFilter.getText(), 1));
+
+            public void keyReleased(final KeyEvent ke) {
+
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 1));
             }
         });
-        
+
         trs = new TableRowSorter(tblUser.getModel());
         tblUser.setRowSorter(trs);
     }
-    
+
     //*********************************************************************************************
-    // Cargar Combobox
+    // Cargar Combobox Usuarios
     public void LoadCbxRol() {
 
         ArrayList<Rol> ListOfRol = rolC.ReadRol();
@@ -148,11 +178,41 @@ public class FrmMain extends javax.swing.JFrame {
         cbxUserState.setModel(defaultCbx);
 
     }
-    
+
     //**********************************************************************************************************************
-    // Limpiar Campos
+    // Habilitar botones en panel usuarios
+    public void EnableAddU() {
+
+        String uN = txtUserName.getText();
+        String p = String.valueOf(txtPassword.getPassword());
+        if (!uN.isEmpty() && !p.isEmpty()) {
+
+            btnAddUser.setEnabled(true);
+
+        } else {
+
+            btnAddUser.setEnabled(false);
+        }
+    }
+
+    public void EnableUpdateU() {
+
+        String uN = txtUserName.getText();
+        String p = String.valueOf(txtPassword.getPassword());
+        if (!uN.isEmpty() && p.isEmpty() && idUserI != 0) {
+
+            btnUpdateUser.setEnabled(true);
+
+        } else {
+
+            btnUpdateUser.setEnabled(false);
+        }
+    }
+
+    //**********************************************************************************************************************
+    // Limpiar Campos en panel de usuarios
     public void Clear() {
-        
+
         idUserI = 0;
         txtUserName.setText("");
         txtPassword.setText("");
@@ -160,6 +220,8 @@ public class FrmMain extends javax.swing.JFrame {
         cbxUserState.removeAllItems();
         LoadCbxRol();
         LoadCbxUState();
+        EnableAddU();
+        EnableUpdateU();
     }
 
     @SuppressWarnings("unchecked")
@@ -206,9 +268,8 @@ public class FrmMain extends javax.swing.JFrame {
         tblUser = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         txtFilter = new javax.swing.JTextField();
-        btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
+        btnUpdateUser = new javax.swing.JButton();
+        btnAddUser = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -275,6 +336,7 @@ public class FrmMain extends javax.swing.JFrame {
         BtnPagar1.setBackground(new java.awt.Color(60, 147, 188));
         BtnPagar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pagos.png"))); // NOI18N
         BtnPagar1.setText("Pagar");
+        BtnPagar1.setEnabled(false);
         BtnPagar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnPagar1ActionPerformed(evt);
@@ -285,6 +347,7 @@ public class FrmMain extends javax.swing.JFrame {
         BtnReportes1.setBackground(new java.awt.Color(60, 147, 188));
         BtnReportes1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reportes.png"))); // NOI18N
         BtnReportes1.setText("Reportes");
+        BtnReportes1.setEnabled(false);
         BtnReportes1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnReportes1ActionPerformed(evt);
@@ -295,6 +358,7 @@ public class FrmMain extends javax.swing.JFrame {
         BtnEmpleados.setBackground(new java.awt.Color(60, 147, 188));
         BtnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/empleados.png"))); // NOI18N
         BtnEmpleados.setText("Empleados");
+        BtnEmpleados.setEnabled(false);
         BtnEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnEmpleadosActionPerformed(evt);
@@ -305,6 +369,7 @@ public class FrmMain extends javax.swing.JFrame {
         BtnUsuarios.setBackground(new java.awt.Color(60, 147, 188));
         BtnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/usuario.png"))); // NOI18N
         BtnUsuarios.setText("Usuarios");
+        BtnUsuarios.setEnabled(false);
         BtnUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnUsuariosActionPerformed(evt);
@@ -359,7 +424,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel6);
@@ -372,7 +437,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab3", jPanel7);
@@ -385,7 +450,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab4", jPanel8);
@@ -405,6 +470,12 @@ public class FrmMain extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Nombre de usuario");
 
+        txtUserName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserNameKeyReleased(evt);
+            }
+        });
+
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Contraseña");
 
@@ -418,16 +489,16 @@ public class FrmMain extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Rol del usuario");
 
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addGap(334, 334, 334))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(156, 156, 156)
                 .addComponent(cbxUserState, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -438,6 +509,11 @@ public class FrmMain extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel7)
+                        .addGap(306, 306, 306)
+                        .addComponent(jLabel11))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -513,19 +589,19 @@ public class FrmMain extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.setText("Actualizar");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdateUser.setText("Actualizar");
+        btnUpdateUser.setEnabled(false);
+        btnUpdateUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnUpdateUserActionPerformed(evt);
             }
         });
 
-        btnDelete.setText("Eliminar");
-
-        btnAdd.setText("Agregar");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUser.setText("Agregar");
+        btnAddUser.setEnabled(false);
+        btnAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnAddUserActionPerformed(evt);
             }
         });
 
@@ -547,11 +623,9 @@ public class FrmMain extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -561,10 +635,9 @@ public class FrmMain extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -575,7 +648,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab5", jPanel9);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 920, 680));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 920, 650));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -596,7 +669,7 @@ public class FrmMain extends javax.swing.JFrame {
         Clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
         // TODO add your handling code here:
 
         try {
@@ -617,9 +690,9 @@ public class FrmMain extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error btnUpdateActionPerformed() " + e.toString());
         }
 
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnUpdateUserActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         // TODO add your handling code here:
         try {
 
@@ -639,7 +712,7 @@ public class FrmMain extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Error btnAddActionPerformed() " + e.toString());
         }
-    }//GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
         // TODO add your handling code here:
@@ -655,13 +728,15 @@ public class FrmMain extends javax.swing.JFrame {
         txtUserName.setText(userName);
         cbxUserState.setSelectedItem(state);
         cbxUserRol.setSelectedItem(r);
+        
+        EnableAddU();
+        EnableUpdateU();
     }//GEN-LAST:event_tblUserMouseClicked
 
     private void txtFilterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFilterKeyTyped
 
-        
         FilterUser();
-        
+
         /*txtFilter.addKeyListener(new KeyAdapter() {
             
             
@@ -678,28 +753,40 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFilterKeyTyped
 
     private void BtnPagar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPagar1ActionPerformed
-     FrmPago frmP = new FrmPago();
+        FrmPago frmP = new FrmPago();
         frmP.setVisible(true);
-        
+
     }//GEN-LAST:event_BtnPagar1ActionPerformed
 
     private void BtnCerrarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSActionPerformed
-      logIn.setVisible(true);
+        logIn.setVisible(true);
 
         this.dispose();
     }//GEN-LAST:event_BtnCerrarSActionPerformed
 
     private void BtnReportes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReportes1ActionPerformed
-       jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_BtnReportes1ActionPerformed
 
     private void BtnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEmpleadosActionPerformed
-       jTabbedPane1.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_BtnEmpleadosActionPerformed
 
     private void BtnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUsuariosActionPerformed
-       jTabbedPane1.setSelectedIndex(4);
+        jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_BtnUsuariosActionPerformed
+
+    private void txtUserNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserNameKeyReleased
+
+        EnableAddU();
+        EnableUpdateU();
+    }//GEN-LAST:event_txtUserNameKeyReleased
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+
+        EnableAddU();
+        EnableUpdateU();
+    }//GEN-LAST:event_txtPasswordKeyReleased
 
     /**
      * @param args the command line arguments
@@ -731,7 +818,7 @@ public class FrmMain extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmMain().setVisible(true);
+                new FrmMain("", "").setVisible(true);
             }
         });
     }
@@ -744,10 +831,9 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JButton BtnUsuarios;
     private javax.swing.JLabel LblPagar1;
     private javax.swing.JLabel LblPagar2;
-    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnUpdateUser;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxUserRol;
     private javax.swing.JComboBox<String> cbxUserState;

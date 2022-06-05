@@ -23,6 +23,6 @@ public class UserController {
     
     public void UpdateUser(User user){ uDAO.UpdateUser(user); }
     
-    public void DeleteUser(User user){ uDAO.DeleteUser(user); }
+//    public void DeleteUser(User user){ uDAO.DeleteUser(user); }
 
 }

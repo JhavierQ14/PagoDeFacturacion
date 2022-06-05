@@ -252,42 +252,39 @@ public class FrmLogin extends javax.swing.JFrame {
         //FrmP menu = new FrmP();
 
         UserController userC = new UserController();
-        Encryption seguridad = new Encryption();
         User user = new User();
-        UserDAO userD = new UserDAO();
-        FrmMain frmMain = new FrmMain();
-        FrmPago frmP = new FrmPago();
+//        FrmMain frmMain;
 
         try {
 
+            int id = 0;
+            String rol = null;
+            String userOnL = null;
             user.setUser_name(TxtUserName.getText());
             user.setPassword(Encryption.Encriptacion(String.valueOf(TxtPass.getPassword())));
-
             int enc = userC.LogIn(user);
-
             String uName = TxtUserName.getText();
-
             var userOnline = userC.UserOnLine(uName);
 
             if (enc == 1) {
 
-                String userOnL;
                 for (var it : userOnline) {
 
+                    id = it.getId_user();
                     FrmPago.idUser = it.getId_user();
-                    FrmMain.idUser = it.getId_user();
-                    FrmMain.userName = it.getUser_name();
-                    FrmMain.stateName = it.getUser_state_name();
-                    FrmMain.rolName = it.getRol_name();
-                    FrmMain.eName = it.getEmployee_name();
-                    FrmMain.eLastName = it.getEmployee_lastname();
                     userOnL = it.getEmployee_name() + " " + it.getEmployee_lastname();
-                    frmMain.lblUserName.setText(userOnL);
-
+                    rol = it.getRol_name();
                 }
 
-                frmMain.setVisible(true);
-                this.dispose();
+                if (id == 0) {
+
+                    JOptionPane.showMessageDialog(null, "Cuenta sin asignar");
+
+                } else {
+
+                    new FrmMain(userOnL, rol).setVisible(true);
+                    this.dispose();
+                }
 
             } else if (enc == 2) {
 

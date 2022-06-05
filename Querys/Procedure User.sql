@@ -17,9 +17,9 @@ CREATE PROCEDURE SP_R_USER()
 CREATE PROCEDURE SP_U_USER(p_rol_id int, p_user_state_id int, p_user_name varchar(64), p_id_user int)
 	update pago_de_facturacion_db.user set rol_id = p_rol_id, user_state_id = p_user_state_id, user_name = p_user_name where id_user = p_id_user;
 
-/*DELETE LOGIC USER*/
-CREATE PROCEDURE SP_D_USER(p_id_user int)
-	update pago_de_facturacion_db.user set user_state_id = 3 where id_user = p_id_user;
+/* DELETE LOGIC USER*/
+/*CREATE PROCEDURE SP_D_USER(p_id_user int)
+	update pago_de_facturacion_db.user set user_state_id = 2 where id_user = p_id_user;*/
 
 /*********************************************************************************************************************************************/
 
