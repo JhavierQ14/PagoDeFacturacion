@@ -10,8 +10,11 @@ import javax.swing.table.DefaultTableModel;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
+import javax.swing.JOptionPane;
 
 public class FrmMain extends javax.swing.JFrame {
+    
+    
 
     UserController userC = new UserController();
     User user = new User();
@@ -60,7 +63,29 @@ public class FrmMain extends javax.swing.JFrame {
         LoadCbxUState();
         LoadCbxUser();
     }
-
+ //**********************************************************************************************
+   //Cerrar Sesión
+    
+   private void CerrarSesion(){
+       
+       String botones [] ={ "Cerrar" ,"Cancelar" };
+       int Selecion = JOptionPane.showOptionDialog(this, "¿Desea cerrar sesión?","Cerrar sesion", 0, 0, null, botones, this);
+       if (Selecion == JOptionPane.YES_OPTION){
+           FrmLogin login = new FrmLogin();
+           login.setVisible(true);
+         this.dispose();
+           }else if (Selecion ==JOptionPane.NO_OPTION){
+               
+               System.out.print("Se cancelo el cierre");
+              
+       }
+           
+      
+   }
+    
+    
+    
+    
     //**********************************************************************************************
     // Seguridad con roles
     public void RolSecurity() {
@@ -1098,9 +1123,8 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnPagar1ActionPerformed
 
     private void BtnCerrarSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarSActionPerformed
-        logIn.setVisible(true);
-
-        this.dispose();
+        CerrarSesion();
+      
     }//GEN-LAST:event_BtnCerrarSActionPerformed
 
     private void BtnReportes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReportes1ActionPerformed
