@@ -278,7 +278,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
                 if (id == 0) {
 
-                    JOptionPane.showMessageDialog(null, "Cuenta sin asignar");
+                    JOptionPane.showMessageDialog(null, "La cuenta no pertenece a ningun empleado");
 
                 } else {
 

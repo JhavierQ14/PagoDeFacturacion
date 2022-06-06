@@ -88,6 +88,29 @@ public class UserDAO {
     }
 
     /*----------------------------------------------------------------------------------------------------------------------*/
+ /*Cambiar Contrasena*/
+    public void ChangePasswordU(User user) {
+
+        String query = "{call pago_de_facturacion_db.SP_U_PASSW_USER(?,?)}";
+
+        try {
+
+            CallableStatement cs = connection.prepareCall(query);
+            cs.setString("p_password", user.getPassword());
+            cs.setInt("p_id_user", user.getId_user());
+
+            cs.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Contraseña Modificada con exito");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Error UpdateUser " + e.toString());
+
+        }
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------------*/
  /*Crear Usuario*/
     public void CreateUser(User user) {
 
@@ -101,6 +124,8 @@ public class UserDAO {
             cs.setString("p_user_name", user.getUser_name());
             cs.setString("p_password", user.getPassword());
             cs.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Usuario creado con exito");
 
         } catch (Exception e) {
 
@@ -157,6 +182,7 @@ public class UserDAO {
             cs.setInt("p_id_user", user.getId_user());
 
             cs.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Usuario modificado con exito");
 
         } catch (Exception e) {
 
@@ -169,21 +195,19 @@ public class UserDAO {
  /* Borrado logico*/
     public void DeleteUser(User user) {
 
-        String query = "call pago_de_facturacion_db.SP_D_USER(?)";
-
-        try {
-
-            CallableStatement cs = connection.prepareCall(query);
-            cs.setInt("p_id_user", user.getId_user());
-
-            cs.executeUpdate();
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "Error " + e.toString());
-
-        }
-
+//        String query = "call pago_de_facturacion_db.SP_D_USER(?)";
+//
+//        try {
+//
+//            CallableStatement cs = connection.prepareCall(query);
+//            cs.setInt("p_id_user", user.getId_user());
+//
+//            cs.executeUpdate();
+//
+//        } catch (Exception e) {
+//
+//            JOptionPane.showMessageDialog(null, "Error " + e.toString());
+//
+//        }
     }
-
 }

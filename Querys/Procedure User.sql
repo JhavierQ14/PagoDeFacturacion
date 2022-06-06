@@ -11,11 +11,16 @@ CREATE PROCEDURE SP_C_USER(p_rol_id int, p_user_state_id int, p_user_name varcha
 CREATE PROCEDURE SP_R_USER()
 	select user.id_user, user.user_name, user.password, user_state.user_state_name, rol.rol_name from user
 	inner join user_state on user.user_state_id = user_state.id_user_state
-    inner join rol on user.rol_id = rol.id_rol;
+    inner join rol on user.rol_id = rol.id_rol
+    order by user.id_user desc;
 
 /*X UPDATE USER*/
 CREATE PROCEDURE SP_U_USER(p_rol_id int, p_user_state_id int, p_user_name varchar(64), p_id_user int)
 	update pago_de_facturacion_db.user set rol_id = p_rol_id, user_state_id = p_user_state_id, user_name = p_user_name where id_user = p_id_user;
+
+/*X UPDATE PASSWORD USER*/
+CREATE PROCEDURE SP_U_PASSW_USER(p_password varchar(256), p_id_user int)
+update pago_de_facturacion_db.user set Password= md5(p_password) where id_user = p_id_user;
 
 /* DELETE LOGIC USER*/
 /*CREATE PROCEDURE SP_D_USER(p_id_user int)
@@ -29,28 +34,13 @@ Select user.user_name, user_state.user_state_name from user
 	inner join user_state on user.User_State_id = user_state.id_User_State
 where user.user_name = PUsername and user.password = Ppass;
     
-/*USER ONLINE*/
+/*X USER ONLINE*/
 CREATE PROCEDURE SP_ONLINE_USER(PUsername varchar(64))
 	select user.id_user, user_state.user_state_name, rol.rol_name, user.user_name, employee.employee_name, employee.employee_lastname from employee
 	inner join user on employee.user_id = user.id_user
     inner join user_state on user.user_state_id = user_state.id_user_state
     inner join rol on user.rol_id = rol.id_rol
     where user.user_name = PUsername;
-    
-/*Employe*/
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_C_employee`(p_user_id int, p_employee_name varchar(64), p_employee_lastname varchar(64), p_e_identification_document varchar(32), p_phone varchar(32), p_email_address varchar(64))
-BEGIN
-insert into pago_de_facturacion_db.employee(user_id, employee_name, employee_lastname, e_identification_document, phone, email_address) values (p_user_id, p_employee_name, p_employee_lastname, p_e_identification_document, p_phone, p_email_address)
-END
-
-/*Employe r*/
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_r_employe`()
-BEGIN
-select employee.id_employee, employee.user_id, employee.employee_name, employee.employee_lastname, employee.e_identification_document, employee.phone, employee.email_address, user.user_name from employee
-	inner join user on employee.user_id = user.id_user;  
-END
-
-
 
 
 

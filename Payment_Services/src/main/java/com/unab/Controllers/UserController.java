@@ -17,6 +17,8 @@ public class UserController {
         return uDAO.UserOnLine(u);
     }
     
+    public void ChangePasswordU(User user){ uDAO.ChangePasswordU(user);}
+    
     public void CreateUser(User user){ uDAO.CreateUser(user); }
     
     public ArrayList<UserVM> ReadUser(){ return uDAO.ReadUser(); }

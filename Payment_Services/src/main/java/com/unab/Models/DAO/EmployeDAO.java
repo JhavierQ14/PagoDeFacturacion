@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.unab.Models.DAO;
 
 import com.unab.DB.ConnectionDB;
@@ -14,15 +10,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author nelso
- */
 public class EmployeDAO {
-    
+
     ConnectionDB conn = new ConnectionDB();
     Connection connection = conn.getCon();
-    
+
     public void CreateEmploye(Employee Empleado) {
 
         String query = "{call pago_de_facturacion_db.SP_C_employee(?,?,?,?,?,?)}";
@@ -45,8 +37,7 @@ public class EmployeDAO {
         }
     }
 
-
-     public ArrayList<EmployeMV> ReadEmploye() {
+    public ArrayList<EmployeMV> ReadEmploye() {
 
         ArrayList<EmployeMV> arrUser = new ArrayList<EmployeMV>();
         String query = "call pago_de_facturacion_db.sp_r_employe";
@@ -60,6 +51,7 @@ public class EmployeDAO {
 
                 EmployeMV employemv = new EmployeMV();
                 
+                employemv.setIdEmployee(rs.getInt("id_employee"));
                 employemv.setUser_id(rs.getInt("user_id"));
                 employemv.setEmployee_name(rs.getString("employee_name"));
                 employemv.setEmployee_Lastname(rs.getString("employee_lastname"));
@@ -68,15 +60,11 @@ public class EmployeDAO {
                 employemv.setEmail_adrdess(rs.getString("email_address"));
                 employemv.setUser_name(rs.getString("user_name"));
                 arrUser.add(employemv);
-                
-                
-               
             }
 
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, "Error ReadUser " + e.toString());
-
         }
 
         return arrUser;
