@@ -40,11 +40,11 @@ update pago_de_facturacion_db.user set Password= md5('1234') where id_user = 3;
 
 select user.id_user, user.user_name, user.password, user_state.user_state_name, rol.rol_name from user
 	inner join user_state on user.user_state_id = user_state.id_user_state
-    inner join rol on user.rol_id = rol.id_rol
+    inner join rol on user.rol_id = rol.id_rol;
     
 
                                                         
-
+update pago_de_facturacion_db.employee set user_id = 6, employee_name = 'C', employee_lastname = 'H', e_identification_document = '0000', phone = '124554', email_address = 'ha@gmail.com' where id_employee = 3;
 
 
 

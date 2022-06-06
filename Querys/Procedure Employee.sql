@@ -10,3 +10,9 @@ CREATE PROCEDURE sp_r_employe()
 select employee.id_employee, employee.user_id, employee.employee_name, employee.employee_lastname, employee.e_identification_document, employee.phone, employee.email_address, user.user_name from employee
 	inner join user on employee.user_id = user.id_user
     order by employee.id_employee desc;
+    
+/* Employee Update*/
+create procedure SP_U_EMPLOYEE(p_id int, p_user_id int, p_employee_name varchar(64), p_employee_lastname varchar(64), p_e_identification_document varchar(32), p_phone varchar(32), p_email_address varchar(64))
+	update pago_de_facturacion_db.employee set user_id = p_user_id, employee_name = p_employee_name, employee_lastname = p_employee_lastname, e_identification_document = p_e_identification_document, phone = p_phone, email_address = p_email_address where id_employee = p_id;
+    
+
