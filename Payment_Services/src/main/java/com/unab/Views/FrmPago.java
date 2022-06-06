@@ -622,7 +622,7 @@ public class FrmPago extends javax.swing.JFrame {
                 TransactionDAO td = new TransactionDAO();
                 td.InsertarTransaccion(lista);
                 guardardatos();
-//                eliminarf();
+                eliminarf();
                 Completardatos();
                 limpiartabla();
                 NIC_TPF.clear();
