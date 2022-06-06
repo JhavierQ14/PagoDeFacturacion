@@ -199,7 +199,7 @@ public class FrmPago extends javax.swing.JFrame {
             System.out.println(f.getNIC());
             fd.EliminarFacturas(f.getNIC(), f.getId_Invoice());
         }
-        limpiartabla();
+       
     }
 
     /*-----------------------------------------------------------------------------*/
@@ -525,9 +525,12 @@ public class FrmPago extends javax.swing.JFrame {
 
     /*----------------------------------------------------------------------------*/
     public void limpiartabla() {
-
+        int nf=NIC_TPF.size();
+        while(nf>0){
         DefaultTableModel tb = (DefaultTableModel) tblFacturas.getModel();
         tb.removeRow(0);
+        nf--;
+        }
     }
 
     /*----------------------------------------------------------------------------*/
@@ -594,7 +597,11 @@ public class FrmPago extends javax.swing.JFrame {
                     InsertarDetallesT();
                     limpiardatos();
                 } else {
+                    txtPagosPendientes.setText("0");
+                    txtMonto.setText("0");
+                    txtTotalPagar.setText("0");
                     JOptionPane.showMessageDialog(null, "Factura ya agregada", "ERROR", 1);
+                    
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Campos Vacios", "ERROR", 1);
@@ -615,8 +622,13 @@ public class FrmPago extends javax.swing.JFrame {
                 TransactionDAO td = new TransactionDAO();
                 td.InsertarTransaccion(lista);
                 guardardatos();
-                eliminarf();
+//                eliminarf();
                 Completardatos();
+                limpiartabla();
+                NIC_TPF.clear();
+                txtTAPagar.setText("0.0");
+                txtCambio.setText("0.0");
+                txtPagaCon.setText("0.0");
                 
             } else {
                 NewJFrame fr = new NewJFrame();
