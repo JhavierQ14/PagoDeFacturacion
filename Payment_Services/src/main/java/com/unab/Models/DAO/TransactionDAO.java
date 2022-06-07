@@ -26,7 +26,7 @@ public class TransactionDAO {
         ArrayList<Transaccion> TDTF = null;
         try {
             TDTF = new ArrayList<Transaccion>();
-            CallableStatement qry = connection.prepareCall("{call PS_TARJETABANK}");
+            CallableStatement qry = connection.prepareCall("{call pago_de_facturacion_db.PS_S_TRANSACTION()}");
             
             
             ResultSet rs = qry.executeQuery();

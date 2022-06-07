@@ -9,6 +9,8 @@ import com.sun.source.doctree.SystemPropertyTree;
 import com.unab.DB.ConnectionDB;
 import com.unab.Entities.Tbl_tarjeta_bancaria;
 import com.unab.Models.DAO.TarjetDao;
+import com.unab.Models.DAO.TransactionDAO;
+import static com.unab.Views.FrmPago.lista;
 import java.lang.reflect.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -55,7 +57,8 @@ public class FrmBankCard extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         BtnPagar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 0));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 102, 0)));
@@ -124,19 +127,17 @@ public class FrmBankCard extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(BtnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(BtnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(170, 170, 170))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(152, 152, 152))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(23, 23, 23)
                 .addComponent(jLabel5)
-                .addGap(48, 48, 48)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
@@ -183,14 +184,38 @@ public class FrmBankCard extends javax.swing.JFrame {
         
         if(ComprobarDatos()!=0)
         {
-             JOptionPane.showMessageDialog(null, "Tarjeta Existente");
+          TransactionDAO td = new TransactionDAO();
+          td.InsertarTransaccion(lista);
+          Guardardetalles();
+          FrmPago frmp = new FrmPago();
+          frmp.setVisible(true);
+          this.dispose();
         }
         else
         {JOptionPane.showMessageDialog(null, "Tarjeta Inexistente");
         }
            
     }//GEN-LAST:event_BtnPagarActionPerformed
-
+public void Guardardetalles(){
+    FrmPago frm = new FrmPago();
+    frm.guardardatos();
+    frm.eliminarf();
+//    Iterator iterador = Transacciond.iterator();
+//    Transacction_detail tdl = new Transacction_detail();
+//    while (iterador.hasNext()) {
+//            Transaction_DetailDAO tdo = new Transaction_DetailDAO();
+//            Transacction_detail td = (Transacction_detail) iterador.next();
+//            tdl.setI_invoice_type(td.getI_invoice_type());
+//            tdl.setDescription(td.getDescription());
+//            tdl.setAmount(td.getAmount());
+//            tdl.setUnit_price(td.getUnit_price());
+//            tdl.setTransaction_id(td.getTransaction_id());
+//            tdl.setIva(td.getIva());
+//            tdl.setQuantity(td.getQuantity());
+//            tdo.InsertarTransaccionD(tdl);
+//        }
+//    
+    }
 
    public int ComprobarDatos()
    {

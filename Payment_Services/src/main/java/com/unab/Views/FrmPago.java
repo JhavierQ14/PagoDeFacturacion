@@ -34,6 +34,8 @@ public class FrmPago extends javax.swing.JFrame {
      */
     public FrmPago() {
         initComponents();
+        NIC_TPF.clear();
+        Transacciond.clear();
         txtMonto.setText("0");
         limpiardatos();
         Comboboxs();
@@ -330,6 +332,11 @@ public class FrmPago extends javax.swing.JFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnPagar.setText("Pagar");
         btnPagar.addActionListener(new java.awt.event.ActionListener() {
@@ -358,6 +365,9 @@ public class FrmPago extends javax.swing.JFrame {
         txtPagaCon.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPagaConKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPagaConKeyTyped(evt);
             }
         });
 
@@ -631,9 +641,10 @@ public class FrmPago extends javax.swing.JFrame {
                 txtPagaCon.setText("0.0");
                 
             } else {
-                NewJFrame fr = new NewJFrame();
+                FrmBankCard fr = new FrmBankCard();
                 fr.setVisible(true);
                 this.dispose();
+                
             }
         } else {
             JOptionPane.showMessageDialog(null, "No se esta facturando nada", "ERROR", 1);
@@ -666,6 +677,33 @@ public class FrmPago extends javax.swing.JFrame {
             txtNIC.transferFocus();
         }
     }//GEN-LAST:event_txtNICKeyTyped
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        Transacciond.clear();
+        limpiardatos();
+        limpiartabla();
+        NIC_TPF.clear();
+        txtTAPagar.setText("0.0");
+        txtPagaCon.setText("0.0");
+        txtCambio.setText("0.0");
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtPagaConKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagaConKeyTyped
+        // TODO add your handling code here:
+        int k = (int) evt.getKeyChar();
+        if (k >= 97 && k <= 122 || k >= 65 && k <= 90) {
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
+            JOptionPane.showMessageDialog(null, "No puede ingresar letras!!!", "Ventana Error Datos", JOptionPane.ERROR_MESSAGE);
+        }
+        if (k == 241 || k == 209) {
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
+            JOptionPane.showMessageDialog(null, "No puede ingresar letras!!!", "Ventana Error Datos", JOptionPane.ERROR_MESSAGE);
+        }
+        if (k == 10) {
+            txtNIC.transferFocus();
+        }
+    }//GEN-LAST:event_txtPagaConKeyTyped
 
     /**
      * @param args the command line arguments

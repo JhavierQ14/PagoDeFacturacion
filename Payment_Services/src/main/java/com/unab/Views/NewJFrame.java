@@ -9,6 +9,7 @@ import com.unab.Entities.Transaccion;
 import com.unab.Entities.Transacction_detail;
 import com.unab.Models.DAO.TransactionDAO;
 import com.unab.Models.DAO.Transaction_DetailDAO;
+import static com.unab.Views.FrmPago.NIC_TPF;
 import static com.unab.Views.FrmPago.Transacciond;
 import static com.unab.Views.FrmPago.lista;
 import java.util.Iterator;
@@ -24,8 +25,9 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public NewJFrame() {
         initComponents();
+        iniciado=0;
     }
-
+static int iniciado;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,8 +73,8 @@ public class NewJFrame extends javax.swing.JFrame {
           TransactionDAO td = new TransactionDAO();
           td.InsertarTransaccion(lista);
           Guardardetalles();
-          FrmPago frmp = new FrmPago();
-          frmp.setVisible(true);
+//          FrmPago frmp = new FrmPago();
+//          frmp.setVisible(true);
           this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -81,6 +83,8 @@ public class NewJFrame extends javax.swing.JFrame {
     FrmPago frm = new FrmPago();
     frm.guardardatos();
     frm.eliminarf();
+    NIC_TPF.clear();
+    Transacciond.clear();
 //    Iterator iterador = Transacciond.iterator();
 //    Transacction_detail tdl = new Transacction_detail();
 //    while (iterador.hasNext()) {
