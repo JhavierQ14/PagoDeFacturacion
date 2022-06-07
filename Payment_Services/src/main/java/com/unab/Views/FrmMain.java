@@ -1354,7 +1354,7 @@ public class FrmMain extends javax.swing.JFrame {
             //String Ruta = "src\\main\\resources\\ReportsLayouts\\Layout_TransactionWeek.jasper";
             
             JasperReport Report = null;
-            String Ruta = "src/main/resources/ReportsLayouts/Layout_TransactionWeek.jasper";
+            String Ruta = "C:\\Users\\nelso\\OneDrive\\Documentos\\PagoDeFacturacion\\Payment_Services\\src\\main\\java\\Reporte\\LayaoutTransactionWeek.jasper";
             
             Report = (JasperReport)JRLoader.loadObjectFromFile(Ruta);
             JasperPrint Imprimir= JasperFillManager.fillReport(Ruta,null,connection);

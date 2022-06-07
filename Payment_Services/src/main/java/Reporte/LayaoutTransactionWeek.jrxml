@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="818f87e4-0ef9-4301-b7e7-34f94dc7ba31">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT pago_de_facturacion_db.transaction.transaction_cod,
+	pago_de_facturacion_db.transaction.transaction_date,
+	pago_de_facturacion_db.transaction_type.t_type_name,
+	pago_de_facturacion_db.payment_method.p_type_name,
+	pago_de_facturacion_db.user.user_name,
+	pago_de_facturacion_db.transaction.amount_transaction,
+	pago_de_facturacion_db.transaction.`Cliente`
+FROM pago_de_facturacion_db.transaction
+	INNER JOIN pago_de_facturacion_db.transaction_type ON 
+	 pago_de_facturacion_db.transaction.transaction_type_id = pago_de_facturacion_db.transaction_type.id_transaction_type 
+	INNER JOIN pago_de_facturacion_db.payment_method ON 
+	 pago_de_facturacion_db.transaction.payment_method_id = pago_de_facturacion_db.payment_method.id_payment_method 
+	INNER JOIN pago_de_facturacion_db.user ON 
+	 pago_de_facturacion_db.transaction.user_id = pago_de_facturacion_db.user.id_user
+     where pago_de_facturacion_db.transaction.transaction_date between date_sub(now(),INTERVAL 1 WEEK) and now();]]>
+	</queryString>
+	<field name="transaction_cod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="transaction_date" class="java.time.LocalDateTime">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="t_type_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="p_type_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="user_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amount_transaction" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="172" y="0" width="427" height="62" uuid="8ce09b82-1f8a-42ff-8878-87f28bfff2fe"/>
+				<textElement verticalAlignment="Middle">
+					<font size="36" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[REPORTE SEMANAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="244" y="62" width="251" height="60" uuid="b25369da-ff31-49e3-84df-3fc245cebbab"/>
+				<textElement>
+					<font fontName="Times New Roman" size="48" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Safer pay]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="ba0c7934-ba68-4f09-ae7c-49624d57ada9"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="114" height="15" forecolor="#736343" uuid="ab0ee126-05d4-4a9f-bc24-8dd42c378ec6"/>
+				<text><![CDATA[transaction_cod]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="114" y="0" width="114" height="15" forecolor="#736343" uuid="870690d7-9e07-40fb-ad3c-90bb88ca0ed1"/>
+				<text><![CDATA[transaction_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="228" y="0" width="114" height="15" forecolor="#736343" uuid="735e6137-74ea-447d-a810-16e9cef697b8"/>
+				<text><![CDATA[t_type_name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="342" y="0" width="114" height="15" forecolor="#736343" uuid="ba46d8d8-7384-492d-91ec-11f63927914b"/>
+				<text><![CDATA[p_type_name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="456" y="0" width="114" height="15" forecolor="#736343" uuid="c13e9f48-6324-4fc5-8765-6eeb4e100dfb"/>
+				<text><![CDATA[user_name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="570" y="0" width="114" height="15" forecolor="#736343" uuid="ea7bf15e-ed09-4ce0-a6f7-aee6633b16ce"/>
+				<text><![CDATA[amount_transaction]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="684" y="0" width="114" height="15" forecolor="#736343" uuid="372ffd66-1aed-444f-8529-670ad0e33317"/>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="ead5e25f-5930-4682-bf49-dd20e609e09d"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="114" height="15" uuid="85425604-833d-4562-9e40-201f926c6581"/>
+					<textFieldExpression><![CDATA[$F{transaction_cod}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="114" y="0" width="114" height="15" uuid="7ad89743-0868-4b06-ad78-d4751588d864"/>
+					<textFieldExpression><![CDATA[""+$F{transaction_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="228" y="0" width="114" height="15" uuid="4fb8f3e0-ef9d-4102-84d1-6237c8636f7d"/>
+					<textFieldExpression><![CDATA[$F{t_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="342" y="0" width="114" height="15" uuid="4fec4d72-f371-4a5a-9c07-8ed8723664c0"/>
+					<textFieldExpression><![CDATA[$F{p_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="456" y="0" width="114" height="15" uuid="ee2bb322-c778-4c3d-b794-544fb9791ff4"/>
+					<textFieldExpression><![CDATA[$F{user_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="570" y="0" width="114" height="15" uuid="9f50be3c-c5aa-413d-997c-63d6732962ee"/>
+					<textFieldExpression><![CDATA[$F{amount_transaction}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="684" y="0" width="114" height="15" uuid="15bdd4ed-ff23-4bd2-b6be-e7dcb8246b75"/>
+					<textFieldExpression><![CDATA[$F{Cliente}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="752a7533-258d-4cb7-9daf-24081dee2891"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="9ff6a258-46fa-4d4f-b9f8-a433a343ec1d"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343" uuid="7e26e169-d307-4b9c-a00a-c8ec7ebe28d8"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343" uuid="4777a3c0-b715-47df-ae8f-d897b8f25b4b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="55f95135-0a26-4f3b-a840-de46d8b2e210"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
