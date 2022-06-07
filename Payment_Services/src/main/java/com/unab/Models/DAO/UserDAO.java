@@ -100,7 +100,7 @@ public class UserDAO {
             cs.setInt("p_id_user", user.getId_user());
 
             cs.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(null, "Contraseña Modificada con exito");
 
         } catch (Exception e) {
@@ -124,8 +124,12 @@ public class UserDAO {
             cs.setString("p_user_name", user.getUser_name());
             cs.setString("p_password", user.getPassword());
             cs.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(null, "Usuario creado con exito");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+
+            JOptionPane.showMessageDialog(null, "Este nombre de usuario ya existe elijaa otro");
 
         } catch (Exception e) {
 
@@ -183,6 +187,10 @@ public class UserDAO {
 
             cs.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario modificado con exito");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+
+            JOptionPane.showMessageDialog(null, "Este nombre de usuario ya existe elijaa otro");
 
         } catch (Exception e) {
 
