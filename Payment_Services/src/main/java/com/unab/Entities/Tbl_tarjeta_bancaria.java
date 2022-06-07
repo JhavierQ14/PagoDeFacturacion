@@ -4,6 +4,9 @@
  */
 package com.unab.Entities;
 
+import java.sql.Date;
+
+
 /**
  *
  * @author user
@@ -26,32 +29,33 @@ public class Tbl_tarjeta_bancaria {
         this.Nombre = Nombre;
     }
 
-    public int getNumero_Tarjeta() {
+    public String getNumero_Tarjeta() {
         return Numero_Tarjeta;
     }
 
-    public void setNumero_Tarjeta(int Numero_Tarjeta) {
+    public void setNumero_Tarjeta(String Numero_Tarjeta) {
         this.Numero_Tarjeta = Numero_Tarjeta;
     }
 
-    public String getFecha_vencimiento() {
+    public Date getFecha_vencimiento() {
         return fecha_vencimiento;
     }
 
-    public void setFecha_vencimiento(String fecha_vencimiento) {
+    public void setFecha_vencimiento(Date fecha_vencimiento) {
         this.fecha_vencimiento = fecha_vencimiento;
     }
 
-    public String getCVV() {
+    public int getCVV() {
         return CVV;
     }
 
-    public void setCVV(String CVV) {
+    public void setCVV(int CVV) {
         this.CVV = CVV;
     }
+
     int idtbl_tarjeta_bancaria;
     String Nombre;
-    int Numero_Tarjeta;
-    String fecha_vencimiento;
-    String CVV;
+    String Numero_Tarjeta;
+    Date fecha_vencimiento;
+    int CVV;
 }
