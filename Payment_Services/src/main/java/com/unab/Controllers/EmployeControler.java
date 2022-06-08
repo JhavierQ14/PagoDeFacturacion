@@ -17,11 +17,17 @@ public class EmployeControler {
 
     EmployeDAO employeDAO = new EmployeDAO();
 
-    public ArrayList<EmployeMV> ReadEmploye() {return employeDAO.ReadEmploye();}
+    public ArrayList<EmployeMV> ReadEmploye() {
+        return employeDAO.ReadEmploye();
+    }
 
-    public void CreateEmploye(Employee employe) {employeDAO.CreateEmploye(employe);}
+    public void CreateEmploye(Employee employe) {
+        employeDAO.CreateEmploye(employe);
+    }
 
-//    public void UpdateUser(User user){ uDAO.UpdateUser(user); }
+    public void UpdateEmployee(Employee employe) {
+        employeDAO.UpdateEmploye(employe);
+    }
 //    
 //    public void DeleteUser(User user){ uDAO.DeleteUser(user); }
 //

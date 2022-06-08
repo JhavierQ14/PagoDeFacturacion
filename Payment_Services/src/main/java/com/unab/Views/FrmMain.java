@@ -797,6 +797,11 @@ public class FrmMain extends javax.swing.JFrame {
         btnUpdateEmployee.setBackground(new java.awt.Color(51, 204, 0));
         btnUpdateEmployee.setText("EDITAR");
         btnUpdateEmployee.setEnabled(false);
+        btnUpdateEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateEmployeeMouseClicked(evt);
+            }
+        });
         btnUpdateEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateEmployeeActionPerformed(evt);
@@ -1352,13 +1357,13 @@ public class FrmMain extends javax.swing.JFrame {
 
         try {
             //String Ruta = "src\\main\\resources\\ReportsLayouts\\Layout_TransactionWeek.jasper";
-            
+
             JasperReport Report = null;
             String Ruta = "C:\\Users\\nelso\\OneDrive\\Documentos\\PagoDeFacturacion\\Payment_Services\\src\\main\\java\\Reporte\\LayaoutTransactionWeek.jasper";
-            
-            Report = (JasperReport)JRLoader.loadObjectFromFile(Ruta);
-            JasperPrint Imprimir= JasperFillManager.fillReport(Ruta,null,connection);
-            JasperViewer vista = new JasperViewer(Imprimir,false);
+
+            Report = (JasperReport) JRLoader.loadObjectFromFile(Ruta);
+            JasperPrint Imprimir = JasperFillManager.fillReport(Ruta, null, connection);
+            JasperViewer vista = new JasperViewer(Imprimir, false);
             vista.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             vista.setVisible(true);
         } catch (Exception e) {
@@ -1366,6 +1371,29 @@ public class FrmMain extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnGenerateRWeeKActionPerformed
+
+    private void btnUpdateEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateEmployeeMouseClicked
+        try {
+            int uId = userId[cbxUsers.getSelectedIndex()];
+
+            employe.setUser_id(uId);
+            employe.setEmployee_name(txtNameEm.getText());
+            employe.setEmployee_Lastname(txtApellidoEm.getText());
+            employe.setE_identification_document(txtDocIdentificacion.getText());
+            employe.setPhone(txtNumTel.getText());
+            employe.setEmail_adrdess(txtEmailEm.getText());
+            employe.setIdEmployee(idEmployeeI);
+            
+            employeC.UpdateEmployee(employe);
+            ClearDataU();
+            loadEploye();
+            
+            
+        } catch (Exception e) {
+              JOptionPane.showMessageDialog(null, "Error UpdateEmploye " + e.toString());
+        }
+
+    }//GEN-LAST:event_btnUpdateEmployeeMouseClicked
 
     /**
      * @param args the command line arguments
