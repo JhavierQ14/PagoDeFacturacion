@@ -637,7 +637,7 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(406, Short.MAX_VALUE))
+                .addContainerGap(446, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel6);
@@ -650,7 +650,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 779, Short.MAX_VALUE)
+            .addGap(0, 657, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab4", jPanel8);
@@ -841,7 +841,7 @@ public class FrmMain extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
         );
 
@@ -1029,7 +1029,7 @@ public class FrmMain extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
         );
 
@@ -1104,16 +1104,16 @@ public class FrmMain extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1)))
+                    .addComponent(jTabbedPane1)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(20, 20, 20)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1273,7 +1273,7 @@ public class FrmMain extends javax.swing.JFrame {
 
             employeC.CreateEmploye(employe);
 
-            ClearDataU();
+            ClearDataEm();
             loadEploye();
 
         } catch (Exception e) {
@@ -1283,7 +1283,28 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddEmployeeActionPerformed
 
     private void btnUpdateEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateEmployeeActionPerformed
-        // TODO add your handling code here:
+        
+        
+        try {
+            int uId = userId[cbxUsers.getSelectedIndex()];
+
+            employe.setUser_id(uId);
+            employe.setEmployee_name(txtNameEm.getText());
+            employe.setEmployee_Lastname(txtApellidoEm.getText());
+            employe.setE_identification_document(txtDocIdentificacion.getText());
+            employe.setPhone(txtNumTel.getText());
+            employe.setEmail_adrdess(txtEmailEm.getText());
+            employe.setIdEmployee(idEmployeeI);
+            
+            employeC.UpdateEmployee(employe);
+            ClearDataEm();
+            loadEploye();
+            
+            
+        } catch (Exception e) {
+              JOptionPane.showMessageDialog(null, "Error UpdateEmploye " + e.toString());
+        }
+        
     }//GEN-LAST:event_btnUpdateEmployeeActionPerformed
 
     private void btnSearchCUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCUserActionPerformed
@@ -1373,25 +1394,6 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateRWeeKActionPerformed
 
     private void btnUpdateEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateEmployeeMouseClicked
-        try {
-            int uId = userId[cbxUsers.getSelectedIndex()];
-
-            employe.setUser_id(uId);
-            employe.setEmployee_name(txtNameEm.getText());
-            employe.setEmployee_Lastname(txtApellidoEm.getText());
-            employe.setE_identification_document(txtDocIdentificacion.getText());
-            employe.setPhone(txtNumTel.getText());
-            employe.setEmail_adrdess(txtEmailEm.getText());
-            employe.setIdEmployee(idEmployeeI);
-            
-            employeC.UpdateEmployee(employe);
-            ClearDataU();
-            loadEploye();
-            
-            
-        } catch (Exception e) {
-              JOptionPane.showMessageDialog(null, "Error UpdateEmploye " + e.toString());
-        }
 
     }//GEN-LAST:event_btnUpdateEmployeeMouseClicked
 

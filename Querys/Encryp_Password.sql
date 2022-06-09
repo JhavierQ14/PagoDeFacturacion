@@ -65,15 +65,3 @@ FROM pago_de_facturacion_db.transaction
      SELECT * FROM pago_de_facturacion_db.transaction
   where pago_de_facturacion_db.transaction.transaction_date between date_sub(now(),INTERVAL 1 WEEK) and now();
   
-  
-
-
-
-
-
-
-
-
-
-
-

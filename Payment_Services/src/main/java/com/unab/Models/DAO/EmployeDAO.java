@@ -31,6 +31,8 @@ public class EmployeDAO {
             cs.setString("p_phone", Empleado.getPhone());
             cs.setString("p_email_address", Empleado.getEmail_adrdess());
             cs.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Empleado agregado con exito");
 
         } catch (Exception e) {
 
@@ -85,7 +87,7 @@ public class EmployeDAO {
             cs.setString("p_employee_lastname", employee.getEmployee_Lastname());
             cs.setString("p_e_identification_document", employee.getE_identification_document());
             cs.setString("p_phone", employee.getPhone());
-            cs.setString(" p_email_address", employee.getEmail_adrdess());
+            cs.setString("p_email_address", employee.getEmail_adrdess());
 
             cs.executeUpdate();
             JOptionPane.showMessageDialog(null, "Empleado modificado con exito");
